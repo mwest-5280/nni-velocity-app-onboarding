@@ -1,0 +1,25 @@
+// Theme overrides
+//
+// https://getbootstrap.com/docs/4.5/getting-started/theming/
+//
+// These were extracted by performing a diff of the _variables.scss
+// Bootstrap partial that was committed and will be kept as historical
+// documentation against the latest Bootstrap version file of the same
+// name.
+//
+// PLEASE NOTE: Our original _variables.scss file is saved under the
+// "historical" directory.
+
+// These affect the badges and some .txt-* classes, but are not
+// necessarily limited to those.
+$yellow: #f7b536;
+$green: #92cf34;
+$cyan: #469dd4;
+$primary: #1f496b;
+
+// Search for .badge class usage to find references affected
+$badge-padding-y: 0.74em;
+$badge-padding-x: 1em;
+
+$headings-font-family: inherit;
+$headings-color: inherit;

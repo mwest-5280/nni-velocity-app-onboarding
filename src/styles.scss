@@ -1,4 +1,599 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700');
+@import 'assets/sass/bootstrap/custom-bootstrap';
+@import 'assets/sass/material/theme';
+@import 'assets/sass/mixins';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@include mat-core($ap-typography-config);
+
+@include angular-material-theme($ap-theme);
+@include mat-button-theme($ap-button-theme);
+
+// Import the theme overrides only after the theme has been initialized as above.
+@import 'assets/sass/material/theme-overrides';
+
+// _layout.scss
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: $mdc-theme-background;
+  color: $mdc-theme-on-primary;
+}
+
+.main {
+  height: calc(100% - 64px);
+  margin: 0;
+  padding: 0;
+}
+// paddings
+.pad-top-5 {
+  padding-top: 5px;
+}
+
+.top-pad-15 {
+  top: 15px;
+  position: relative;
+  z-index: 999;
+}
+
+.pad-bot-15 {
+  padding-bottom: 8px;
+  clear: both;
+}
+
+.pad-bot-zero {
+  padding-bottom: 0;
+}
+
+.pad-bot-10 {
+  padding-bottom: 10px;
+  margin-top: 18px;
+}
+
+// margins
+.marg-top-15px {
+  margin-top: 15px;
+}
+.margin-right-10 {
+  margin-right: 10px;
+}
+.margin-bottom-15 {
+  margin-bottom: 15px;
+}
+.marg-bot-5 {
+  margin-bottom: 5px;
+}
+
+.h-770 {
+  height: 770px;
+  overflow: auto;
+}
+
+// _utilities.scss
+.w-50 {
+  width: 50%;
+}
+.w-80 {
+  width: 80%;
+}
+
+.w-83 {
+  width: 83%;
+}
+
+.w-91 {
+  width: 91%;
+}
+
+.fs-1 {
+  font-size: 1em !important;
+}
+
+.fs-1-25 {
+  font-size: 1.25em !important;
+}
+
+.fs-1-5 {
+  font-size: 1.5em !important;
+}
+
+.fs-2 {
+  font-size: 2em !important;
+}
+
+.fs-3 {
+  font-size: 3em !important;
+}
+
+.bg-primary {
+  background: $primary !important;
+}
+
+.bg-accent {
+  background: $accent !important;
+}
+
+.bg-gray {
+  background: $light-gray !important;
+}
+
+.txt-light {
+  color: $white !important;
+}
+
+.txt-gray {
+  color: $gray !important;
+}
+
+.txt-dark {
+  color: #333 !important;
+}
+
+// TODO: Consider applying this style globally to the anchor tag
+.txt-link {
+  color: $primary-link-color !important;
+  cursor: pointer;
+}
+a.txt-link:hover {
+  text-decoration: underline !important;
+}
+
+.txt-small {
+  font-size: 0.75rem;
+}
+
+.txt-med {
+  font-size: 0.875rem; /* 14px */
+}
+
+.txt-large {
+  font-size: 1.75rem;
+}
+
+.lsp-1 {
+  letter-spacing: 1px;
+}
+
+.lsp-2 {
+  letter-spacing: 2px;
+}
+
+h2,
+h3 {
+  color: $primary;
+}
+
+// _buttons.scss
+.btnLink {
+  color: mat-color($ap-primary-color, link);
+  font-weight: 400;
+}
+
+// hr styles
+.hr-style {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+// _lists.scss
+.two-column-list {
+  margin-left: 0;
+  padding-left: 0;
+  list-style: none;
+
+  li {
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.widget-header {
+  color: $white !important;
+  background-color: $primary !important;
+}
+
+// _dialog.scss
+.mat-dialog-container {
+  min-width: 800px;
+  max-width: 800px;
+}
+
+// used for larger container pop ups
+.mat-dialog-container-large {
+  mat-dialog-container {
+    min-width: 1200px !important;
+    max-width: 1200px !important;
+    padding: 10 !important;
+    overflow: hidden;
+  }
+}
+
+// fixed height for modals at 900px
+.mat-dialog-container-fixed-900 {
+  mat-dialog-container {
+    max-height: 900px !important;
+    padding: 10 !important;
+    overflow: auto;
+  }
+}
+
+// used for small container pop ups
+.mat-dialog-container-small {
+  mat-dialog-container {
+    min-width: 600px !important;
+    max-width: 600px !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+}
+
+// _tables.scss
+table {
+  .mat-row {
+    height: auto;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    padding: 8px !important;
+  }
+
+  .paid {
+    background: #f3f3f3;
+  }
+
+  .amount {
+    background: #e2e2e2;
+  }
+
+  .prncpl {
+    background: #bcc8d3;
+  }
+}
+
+table.dataTable.dtr-column > tbody > tr > td.control:before,
+table.dataTable.dtr-column > tbody > tr > th.control:before,
+table.dataTable.dtr-column > tbody > tr.parent td.control:before,
+table.dataTable.dtr-column > tbody > tr.parent th.control:before {
+  display: none !important;
+}
+
+table.dataTable.dtr-column > tbody > tr > td.control:after,
+table.dataTable.dtr-column > tbody > tr > th.control:after {
+  content: '+';
+  font-size: 3rem;
+  font-weight: 300;
+}
+
+table.dataTable.dtr-column > tbody > tr.parent td.control:after,
+table.dataTable.dtr-column > tbody > tr.parent th.control:after {
+  content: '-';
+  font-size: 3rem;
+  font-weight: 300;
+}
+
+.table-sub-data {
+  height: 3.33rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+  text-align: right;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+  margin-left: 0.5em;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+  padding-top: 10px;
+  white-space: nowrap;
+}
+
+div.dataTables_wrapper div.dataTables_processing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  margin-left: -100px;
+  text-align: center;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+  text-align: right;
+}
+
+div.dataTables_wrapper div.mdl-grid.dt-table {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+div.dataTables_wrapper div.mdl-grid.dt-table > div.mdl-cell {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+table.dataTable thead > tr > th.sorting_asc,
+table.dataTable thead > tr > th.sorting_desc,
+table.dataTable thead > tr > th.sorting,
+table.dataTable thead > tr > td.sorting_asc,
+table.dataTable thead > tr > td.sorting_desc,
+table.dataTable thead > tr > td.sorting {
+  padding-right: 30px;
+}
+
+table.dataTable thead > tr > th:active,
+table.dataTable thead > tr > td:active {
+  outline: none;
+}
+
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+  cursor: pointer;
+  position: relative;
+}
+
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:after {
+  position: absolute;
+  bottom: 11px;
+  display: block;
+  opacity: 0.3;
+  font-size: 1.3em;
+}
+
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:before {
+  right: 1em;
+  content: '\2191';
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:after {
+  right: 0.5em;
+  content: '\2193';
+}
+
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:after {
+  opacity: 1;
+}
+
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc_disabled:after {
+  opacity: 0;
+}
+
+// _forms.scss
+
+.mat-datepicker-toggle {
+  font-size: 1.5rem;
+}
+
+// _code.scss
+pre {
+  padding: 1rem !important;
+  background: #15171e;
+  color: #a5a8b0;
+  border: 0;
+  outline: none !important;
+  border-radius: 7px;
+  overflow-x: scroll;
+
+  span {
+    white-space: normal;
+  }
+
+  .string {
+    color: #abb677 !important;
+  }
+
+  .number {
+    color: #de9a6d !important;
+  }
+
+  .boolean {
+    color: #7995bf !important;
+  }
+
+  .null {
+    color: #de6d6d !important;
+  }
+
+  .key {
+    color: #a5a8b0 !important;
+  }
+}
+
+// _wrapup.scss
+#wrapUp {
+  position: fixed;
+  z-index: 99;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+// _search.scss
+.text-align-right {
+  text-align: right;
+}
+
+.mat-button-toggle-label-content {
+  padding: 0;
+}
+
+.mat-tab-label.mat-tab-label-active {
+  color: $mdc-theme-secondary;
+  opacity: 1;
+}
+
+.mat-button-toggle.mat-button-toggle-checked {
+  color: $mdc-theme-secondary;
+  background-color: $lightest-blue;
+}
+
+.mat-ink-bar {
+  color: $mdc-theme-secondary;
+}
+
+div.mat-tab-body-content {
+  overflow: hidden;
+}
+
+.intl-tel-input .flag-container {
+  top: auto !important;
+  height: 30px !important;
+}
+
+// modal container styling, can't be inside a component
+div.transparent-dialog {
+  background-color: rgba(0, 0, 0, 0);
+  overflow: scroll;
+
+  // hide the scrollbar...
+  -ms-overflow-style: none; // IE 10+
+  scrollbar-width: none; // Firefox
+
+  &::-webkit-scrollbar {
+    display: none; // Safari and Chrome
+  }
+
+  & > mat-dialog-container.mat-dialog-container {
+    padding: 0;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+// modal container styling, can't be inside a component
+.transparent-dialog-backdrop {
+  background-color: rgba(150, 150, 150, 0.8);
+}
+
+.mat-icon.mat-icon-inline.large-icon-size {
+  font-size: 1.5rem;
+}
+
+// fixes the padding/margin issue on datepickers, don't set the height to 0 as it will make IE11's icons go crazy
+.mat-form-field-suffix .mat-icon-button {
+  width: 33px !important;
+  height: 20px !important;
+}
+
+.info-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.info-text {
+  font-size: smaller;
+  position: relative;
+  top: -20px;
+}
+
+.bottom-line {
+  border-bottom: solid 1px #eee;
+  float: left;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.data-list-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+
+  // stylelint-disable-next-line no-descending-specificity
+  > div:last-of-type {
+    font-weight: 700;
+  }
+
+  &.item-col {
+    flex-direction: column;
+
+    &--grey {
+      flex-direction: column;
+
+      div:first-of-type {
+        font-size: 0.75rem;
+        color: $gray;
+        margin-bottom: -0.4rem;
+      }
+    }
+  }
+}
+.click-to-select {
+  user-select: all;
+}
+// for text inside modal 'cancel' button
+button span.cancel {
+  top: -10px;
+  position: relative;
+}
+/* Please Note: must not be wrapped within a mat-toolbar */
+mat-button-toggle-group.wrapping-button-toggle-group {
+  width: 100%;
+  height: auto;
+  overflow: auto;
+  outline: none;
+  overflow-y: hidden;
+  justify-content: center;
+
+  @media only screen and (max-width: 1600px) {
+    justify-content: right;
+  }
+}
+.no-btn-styles {
+  border: none !important;
+  background: none !important;
+  cursor: pointer;
+}
+.uppercase {
+  text-transform: uppercase;
+}

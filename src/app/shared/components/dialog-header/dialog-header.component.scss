@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+
+  h3 {
+    align-self: center;
+    margin: 0;
+  }
+}

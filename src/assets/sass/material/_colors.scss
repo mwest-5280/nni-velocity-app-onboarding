@@ -1,0 +1,128 @@
+@import '~@angular/material/theming';
+
+$mdc-theme-primary: #1f496b;
+$mdc-theme-on-primary: rgba(0, 0, 0, 0.87);
+$mdc-theme-secondary: #1f496b;
+$mdc-theme-on-secondary: #ffffff;
+$mdc-theme-surface: #ffffff;
+$mdc-theme-on-surface: rgba(0, 0, 0, 0.6);
+$mdc-theme-background: #f2f2eb;
+
+$ap-primary-color: (
+  50: #e4e9ed,
+  100: #bcc8d3,
+  200: #8fa4b5,
+  300: #628097,
+  400: #416481,
+  500: #1f496b,
+  600: #1b4263,
+  700: #173958,
+  800: #12314e,
+  900: #0a213c,
+  A100: #74aeff,
+  A200: #4190ff,
+  A400: #0e72ff,
+  A700: #0065f4,
+  link: #3473ac,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff
+  )
+);
+
+// nelnet green
+$ap-accent-color: (
+  50: #f1f9e3,
+  100: #ddf0ba,
+  200: #c6e78c,
+  300: #afdd5e,
+  400: #9ed53c,
+  500: #8dce19,
+  600: #85c916,
+  700: #7ac212,
+  800: #70bc0e,
+  900: #5db008,
+  A100: #ecffdb,
+  A200: #d0ffa8,
+  A400: #b4ff75,
+  A700: #a6ff5c,
+  success: #e6f7d5,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+// Based off of the $mat-error color palette (in particular the contrast
+// map since I do not understand it yet). The palette was generated off
+// the 500: #b00020 color.
+$ap-warn-color: (
+  50: #f6e0e4,
+  100: #e7b3bc,
+  200: #d88090,
+  300: #c84d63,
+  400: #bc2641,
+  500: #b00020,
+  600: #a9001c,
+  700: #a00018,
+  800: #970013,
+  900: #87000b,
+  A100: #ffb3b6,
+  A200: #ff8085,
+  A400: #ff4d53,
+  A700: #ff343b,
+  contrast: (
+    50: rgba(0, 0, 0, 0.87),
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: rgba(0, 0, 0, 0.87),
+    500: #fff,
+    600: #fff,
+    700: #fff,
+    800: #fff,
+    900: #fff,
+    A100: rgba(0, 0, 0, 0.87),
+    A200: #fff,
+    A400: #fff,
+    A700: #fff
+  )
+);
+
+$white: #fff;
+$gray: #9b9b9b;
+$light-gray: #f3f3f3;
+$primary: mat-color($ap-primary-color, 500);
+$accent: mat-color($ap-accent-color, 500);
+$primary-link-color: mat-color($ap-primary-color, link);
+
+// for the background of selected toggle buttons
+$lightest-blue: rgb(232, 239, 244);
+
+// used for some text and the background of the card collapse button
+// color: #35759c
+$lighter-blue: rgb(53, 117, 156);

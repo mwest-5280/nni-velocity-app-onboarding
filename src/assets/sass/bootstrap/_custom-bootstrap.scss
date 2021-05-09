@@ -1,0 +1,36 @@
+// Custom Bootstrap build
+//
+// https://getbootstrap.com/docs/4.5/getting-started/theming/
+
+// Overrides
+@import 'overrides';
+
+// Required imports
+@import '../../../../node_modules/bootstrap/scss/functions';
+@import '../../../../node_modules/bootstrap/scss/variables';
+@import '../../../../node_modules/bootstrap/scss/mixins';
+
+// Optional imports
+// TODO: We should audit these to remove ones we do not or no longer use.
+@import '../../../../node_modules/bootstrap/scss/root';
+@import '../../../../node_modules/bootstrap/scss/grid';
+@import '../../../../node_modules/bootstrap/scss/forms';
+@import '../../../../node_modules/bootstrap/scss/breadcrumb';
+@import '../../../../node_modules/bootstrap/scss/badge';
+@import '../../../../node_modules/bootstrap/scss/alert';
+@import '../../../../node_modules/bootstrap/scss/close';
+@import '../../../../node_modules/bootstrap/scss/modal';
+@import '../../../../node_modules/bootstrap/scss/utilities';
+@import '../../../../node_modules/bootstrap/scss/print';
+
+// Reverse this fix as it regresses what we currently expect:
+// https://github.com/twbs/bootstrap/issues/25410
+//
+// FIXME: Find places that rely upon this, fix, and remove this hack
+// Example:
+//  "Recipient Information" under the Refund tab of the Edit Suspense dialog
+//  is a location affected. You'll see the second row line break when this
+//  hack is in place and not when, well, not.
+.col {
+  min-width: unset;
+}

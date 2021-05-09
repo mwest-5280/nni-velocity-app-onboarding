@@ -1,0 +1,81 @@
+@import '~@angular/material/theming';
+@import 'colors';
+
+// Agent Portal Typography
+// Key:
+//   h1 -> headline
+//   h2 -> title
+//   h3 -> subheading-2
+//   h4 -> subheading-1
+$ap-typography-config: mat-typography-config(
+  $font-family: 'Open Sans, sans-serif',
+  $headline: mat-typography-level(1.25rem, 1.15rem, 700),
+  $title: mat-typography-level(1rem, 1.15rem, 400),
+  $subheading-2: mat-typography-level(1.125rem, 1.15rem, 700),
+  $subheading-1: mat-typography-level(0.875rem, 1.33rem, 700),
+  $body-2: mat-typography-level(0.875rem, 1.5rem, 700),
+  $body-1: mat-typography-level(0.875rem, 1.5rem, 400),
+  $caption: mat-typography-level(0.75rem, 1.66rem, 400),
+  $button:
+    mat-typography-level(
+      $font-size: 14px,
+      $font-weight: 700,
+      $letter-spacing: 0px
+    )
+);
+
+// Agent Portal Palettes
+$ap-primary-palette: mat-palette($ap-primary-color);
+$ap-accent-palette: mat-palette($ap-accent-color);
+$ap-warn-palette: mat-palette($ap-warn-color);
+
+// Agent Portal Themes
+$ap-theme: mat-light-theme($ap-primary-palette, $ap-accent-palette, $ap-warn-palette);
+
+// reverse the palette for the site buttons
+$ap-button-theme: mat-light-theme($ap-accent-palette, $ap-primary-palette);
+
+// Specifications not present within the Material theme
+
+.overline {
+  font-size: 0.75rem;
+  line-height: 1.4rem;
+  text-transform: uppercase;
+
+  // This is not strictly in the spec
+  // but so far every 'overline' has this color
+  color: $lighter-blue;
+}
+.float-right {
+  float: right;
+}
+
+.subtitle-1 {
+  font-size: 1rem;
+  line-height: 1.33rem;
+}
+
+.subtitle-2 {
+  font-size: 0.75rem;
+  line-height: 1.57rem;
+}
+
+.border-bottom-line {
+  padding-bottom: 10px;
+  color: $gray;
+}
+
+.top-level-index {
+  z-index: 999;
+}
+
+.info-icon {
+  font-size: 16px;
+  color: mat-color($ap-primary-color, 500);
+}
+
+a {
+  cursor: pointer;
+  color: #3473ac;
+  text-decoration: underline;
+}
