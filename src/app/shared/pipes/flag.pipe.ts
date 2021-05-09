@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'flag',
+  name: 'flag'
 })
 export class FlagPipe implements PipeTransform {
   transform(value: boolean): string {

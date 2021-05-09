@@ -28,11 +28,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatStepperModule} from '@angular/material/stepper';
 
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   imports: [
+    MatStepperModule,
     MatToolbarModule,
     MatMenuModule,
     MatFormFieldModule,
@@ -61,7 +63,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
     MatDatepickerModule,
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatMomentDateModule,
+    MatMomentDateModule
   ],
   exports: [
     MatToolbarModule,
@@ -92,6 +94,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
     MatDatepickerModule,
     MatAutocompleteModule,
     MatCheckboxModule,
+    MatStepperModule
   ],
   providers: [
     MatDatepickerModule,
@@ -102,19 +105,19 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
       provide: MAT_DATE_FORMATS,
       useValue: {
         parse: {
-          dateInput: ['l', 'L', 'LL'],
+          dateInput: ['l', 'L', 'LL']
         },
         display: {
           dateInput: 'L',
           monthYearLabel: 'MMM YYYY',
           dateA11yLabel: 'LL',
-          monthYearA11yLabel: 'MMMM YYYY',
-        },
-      },
+          monthYearA11yLabel: 'MMMM YYYY'
+        }
+      }
     },
     // TODO: Review MatDialog use to try and remove these next two dialog related providers,
     { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] },
-  ],
+    { provide: MAT_DIALOG_DATA, useValue: [] }
+  ]
 })
 export class MaterialModule {}

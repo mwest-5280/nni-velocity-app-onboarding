@@ -1,79 +1,89 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { OnDestroy, OnInit, Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageTypeEnum } from '../core/models/messages';
-import { AuthenticationService } from '../core/security';
-import { Subscriptions } from '../core/subscriptions';
-import { UserPoolIdService } from '../core/security/user-pool-id.service';
+import { AuthenticationService } from '../services/authentication.service';
+import { SubSink } from 'subsink';
+import { MessageTypeEnum } from '../models/messages';
+import { environment } from '../../environments/environment';
+import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
   hidePassword = true;
   hideNewPassword = true;
   loading = false;
   errMsg: string;
+  authResponse: any;
   normalMsg: string;
   nextUrl: string;
   loginForm: FormGroup;
   pageTitle: string;
   submitButtonTitle: string;
+  envs = environment;
+  showPrdList = false;
+  showDevList = false;
+  showTrainList = false;
+  showQAList = false;
 
+  subsink = new SubSink();
   forgotPasswordFlow: boolean;
   newPasswordEntry: boolean;
   messageTypes = MessageTypeEnum;
   showPasswordRequirements: boolean;
 
+  // ^ $ * . [ ] { } ( ) ? - " ! @ # % & / \ , > < ' : ; | _ ~ `
   specialCharacters = ' ^ $ * . [ ] { } ( ) ? - " ! @ # % & / \\ , > < \' : ; | _ ~ `';
   specialCharactersRegex = /[\^$*.[\]{}()?\-"!@#%&/\\,><':;|_~`]/;
-
-  poolOptions = this.poolIdService.poolOptions;
-
-  private subscriptions = new Subscriptions();
 
   constructor(
     private route: ActivatedRoute,
     private authService: AuthenticationService,
-    private poolIdService: UserPoolIdService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    @Inject(LOCAL_STORAGE) private storage: StorageService
   ) {
     this.loginForm = this.fb.group({
-      poolId: [''],
-      username: ['', [Validators.required]],
-      password: ['', [Validators.required]],
-      newPassword: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(99),
-          Validators.pattern(/[0-9]/),
-          Validators.pattern(/[a-z]/),
-          Validators.pattern(/[A-Z]/),
-          Validators.pattern(this.specialCharactersRegex),
-        ],
-      ],
-      verificationCode: ['', [Validators.required]],
+      servicerIds: this.fb.control(''),
+      username: this.fb.control('', [Validators.required]),
+      password: this.fb.control('', [Validators.required]),
+      newPassword: this.fb.control('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(99),
+        Validators.pattern(/[0-9]/),
+        Validators.pattern(/[a-z]/),
+        Validators.pattern(/[A-Z]/),
+        Validators.pattern(this.specialCharactersRegex)
+      ]),
+      verificationCode: this.fb.control('', [Validators.required])
     });
     this.forgotPasswordFlow = false;
     this.newPasswordEntry = false;
-    this.pageTitle = 'Login';
+    this.pageTitle = 'Onboarding HenchMan';
     this.submitButtonTitle = 'Login';
 
     // depending on what environment we are in, we will show the different drop down options
-    this.loginForm.get('poolId').setValue(this.poolOptions[0].id);
+    if (this.envs.envName === 'prod') {
+      this.loginForm.get('servicerIds').setValue('accessloansprod');
+      this.showPrdList = true;
+    } else if (this.envs.envName === 'dev') {
+      this.loginForm.get('servicerIds').setValue('firstmarkdev');
+      this.showDevList = true;
+    } else if (this.envs.envName === 'qa') {
+      this.loginForm.get('servicerIds').setValue('firstmarkqa');
+      this.showQAList = true;
+    } else if (this.envs.envName === 'train') {
+      this.loginForm.get('servicerIds').setValue('accessloanstrain');
+      this.showTrainList = true;
+    }
   }
 
   ngOnInit() {
-    this.nextUrl = this.route.snapshot.queryParams.continue || '/borrower';
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
+    this.nextUrl = this.route.snapshot.queryParams.continue || '/dashboard';
   }
 
   async onSubmit() {
@@ -92,16 +102,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (!this.loginForm.controls.username.valid || !this.loginForm.controls.password.valid) {
       return;
     }
-
     this.errMsg = '';
     this.normalMsg = '';
     this.loading = true;
-
     const values = this.loginForm.value;
+    this.storage.set('authenticatedUserName', values.servicerIds);
     this.loginForm.disable();
-
-    this.subscriptions.add = this.authService.basicAuthLogic(values.username, values.password, values.poolId).subscribe(
-      () => {
+    this.subsink.sink = this.authService.basicAuthLogic(values.username, values.password, values.servicerIds).subscribe(
+      data => {
+        this.authResponse = data;
         this.loading = false;
         this.router.navigateByUrl(this.nextUrl);
       },
@@ -114,7 +123,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   forgotPasswordProcess() {
-    if (!this.loginForm.controls.username.valid || !this.loginForm.controls.poolId.valid) {
+    if (!this.loginForm.controls.username.valid || !this.loginForm.controls.servicerIds.valid) {
       return;
     }
 
@@ -124,8 +133,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.pageTitle = 'Login';
     this.loginForm.disable();
     const { username } = this.loginForm.value;
-    const { poolId } = this.loginForm.value;
-    this.subscriptions.add = this.authService.resetPassword(username, poolId).subscribe();
+    const { servicerIds } = this.loginForm.value;
+    this.subsink.sink = this.authService.resetPassword(username, servicerIds).subscribe();
     this.loading = false;
     this.normalMsg = 'A verification code has been sent for account recovery.';
     this.newPasswordEntry = true;
@@ -144,9 +153,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loading = true;
 
     this.loginForm.disable();
-    const { username, newPassword, verificationCode, poolId } = this.loginForm.value;
-    this.subscriptions.add = this.authService
-      .confirmNewPassword(username, newPassword, verificationCode, poolId)
+    const { username, newPassword, verificationCode, servicerIds } = this.loginForm.value;
+    this.subsink.sink = this.authService
+      .confirmNewPassword(username, newPassword, verificationCode, servicerIds)
       .subscribe(
         () => {
           this.loading = false;
@@ -177,5 +186,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   toggleShowPasswordReqs() {
     this.showPasswordRequirements = !this.showPasswordRequirements;
+  }
+
+  ngOnDestroy() {
+    this.subsink.unsubscribe();
   }
 }

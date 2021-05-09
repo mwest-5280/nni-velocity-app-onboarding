@@ -11,7 +11,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'nni-velocity-app-onboarding';
+  title = 'HenchMan';
 
   subscriptions: Subscription[] = [];
   version = `${VERSION.version}+sha.${VERSION.sha}`;

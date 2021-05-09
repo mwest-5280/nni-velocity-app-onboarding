@@ -6,6 +6,6 @@ import { NumbersOnlyDirective } from './numbers-only.directive';
 @NgModule({
   declarations: [FormatDateDirective, NumbersOnlyDirective],
   imports: [CommonModule],
-  exports: [FormatDateDirective, NumbersOnlyDirective],
+  exports: [FormatDateDirective, NumbersOnlyDirective]
 })
 export class SharedDirectivesModule {}

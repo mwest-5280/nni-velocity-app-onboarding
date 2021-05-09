@@ -3,7 +3,7 @@ import * as textMask from 'vanilla-text-mask/dist/vanillaTextMask.js';
 import { createAutoCorrectedDatePipe } from 'text-mask-addons/dist/textMaskAddons';
 
 @Directive({
-  selector: '[appFormatDate]',
+  selector: '[appFormatDate]'
 })
 export class FormatDateDirective implements OnDestroy {
   static readonly mask = [/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]; // mm/dd/yyyy
@@ -19,7 +19,7 @@ export class FormatDateDirective implements OnDestroy {
     this.maskedInputController = textMask.maskInput({
       inputElement,
       mask,
-      pipe,
+      pipe
     });
   }
 

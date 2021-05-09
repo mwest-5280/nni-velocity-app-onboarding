@@ -9,6 +9,6 @@ import { IdleTokenService } from './idle-token.service';
   declarations: [IdleAndTokenWarningModalComponent, IdleTokenTimeoutComponent],
   imports: [CommonModule, MaterialModule],
   providers: [IdleTokenService],
-  exports: [IdleAndTokenWarningModalComponent, IdleTokenTimeoutComponent]
+  exports: [IdleTokenTimeoutComponent, IdleAndTokenWarningModalComponent]
 })
 export class IdleTokenTimeoutModule {}

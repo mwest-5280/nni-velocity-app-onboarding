@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'withDefault',
+  name: 'withDefault'
 })
 export class WithDefaultPipe implements PipeTransform {
   transform(value: any, defaultValue: any): any {

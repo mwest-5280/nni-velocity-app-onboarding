@@ -1,0 +1,31 @@
+<mat-menu #settingsMenu="matMenu" yPosition="below" xPosition="after">
+  <button mat-menu-item (click)="changePassword()">Change Password</button>
+</mat-menu>
+
+<mat-toolbar
+  class="header-height color-contrast d-flex justify-content-between"
+  [ngClass]="{ 'prod-header-bg': showPrdBanner, 'background-color': !showPrdBanner }"
+>
+  <div class="d-flex align-items-center ml-3">
+    <img class="logo-size" src="assets/img/logo.svg" alt="nelnet logo" />
+    <h1 class="ml-3">System Configuration Portal</h1>
+  </div>
+  <div class="d-flex align-items-center ml-3 prod-header-bg" *ngIf="showPrdBanner">
+    <div class="material-icons">notification_important</div>
+    <h1 class="ml-3">PROD UAT Environment</h1>
+  </div>
+  <div class="d-flex align-items-center ml-3" *ngIf="showProceedBanner">
+    <div class="material-icons">notification_important</div>
+    <h1>Conversions Environment</h1>
+    <div class="material-icons">notification_important</div>
+  </div>
+  <div class="d-flex align-items-center">
+    <h2 data-cy="app-header-username" class="txt-light mb-0">{{ username }}</h2>
+    <!--  <button mat-icon-button matTooltip="Settings" [matMenuTriggerFor]="settingsMenu">
+        <mat-icon>settings</mat-icon>
+      </button> -->
+    <button mat-icon-button matTooltip="Log Out" (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'numberMask',
+  pure: true
 })
 export class NumberMaskPipe implements PipeTransform {
   private static parseIntWithDefault(numberString: string, defaultValue: number): number {

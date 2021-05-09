@@ -3,25 +3,44 @@
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-md-6">
         <mat-toolbar color="primary" class="mat-elevation-z5">
-          <h1>{{ pageTitle }}</h1>
           <mat-icon class="ml-1">fingerprint</mat-icon>
+          <h1>{{ pageTitle }}</h1>
         </mat-toolbar>
-        <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        <app-loader></app-loader>
         <mat-card class="mat-elevation-z15">
           <mat-card-content>
             <form [formGroup]="loginForm" (submit)="onSubmit()" autocomplete="disabled" novalidate>
               <app-message *ngIf="normalMsg" [type]="messageTypes.INFO" [message]="normalMsg"></app-message>
               <app-message *ngIf="errMsg" [type]="messageTypes.ERROR" [message]="errMsg"></app-message>
-              <div class="d-flex align-items-center" *ngIf="poolOptions.length > 1">
-                <mat-icon class="mr-2">business</mat-icon>
+              <div
+                class="d-flex align-items-center"
+                id="tenantclientIDRow"
+                *ngIf="showPrdList || showQAList || showDevList || showTrainList"
+              >
+                <mat-icon class="mr-2">account_tree</mat-icon>
                 <mat-form-field>
-                  <mat-select required formControlName="poolId">
-                    <mat-option [value]="config.id" *ngFor="let config of poolOptions">
-                      {{ config?.name }}{{ config?.name && config?.env ? ':' : '' }} <strong>{{ config?.env }}</strong>
+                  <mat-select required formControlName="servicerIds">
+                    <mat-option value="accessloansprod" *ngIf="showPrdList"
+                      ><strong>System Configuration User</strong>
                     </mat-option>
+                    <mat-option value="adminUser" *ngIf="showPrdList">Admin User </mat-option>
+                    <mat-option value="accessloansuat" *ngIf="showPrdList"
+                      ><strong> System Configuration User - UAT</strong>
+                    </mat-option>
+                    <mat-option value="firstmarkdev" *ngIf="showDevList">System Configuration User </mat-option>
+                    <mat-option value="adminUser" *ngIf="showDevList">Admin User </mat-option>
+                    <mat-option value="firstmarkqa" *ngIf="showQAList">System Configuration User </mat-option>
+                    <mat-option value="negativeQa" *ngIf="showQAList">Conversions User </mat-option>
+                    <mat-option value="adminUser" *ngIf="showQAList">Admin User </mat-option>
+                    <mat-option value="accessloanstrain" *ngIf="showTrainList">System Configuration User </mat-option>
+                    <mat-option value="adminUser" *ngIf="showTrainList">Admin User </mat-option>
                   </mat-select>
-                  <mat-error *ngIf="loginForm.controls['poolId'].errors?.required && loginForm.controls['poolId'].dirty"
-                    >Please choose a lender.</mat-error
+                  <mat-error
+                    *ngIf="
+                      loginForm.controls['servicerIds'].errors?.required && loginForm.controls['servicerIds'].dirty
+                    "
+                  >
+                    Please choose a lender.</mat-error
                   >
                 </mat-form-field>
               </div>
@@ -29,6 +48,7 @@
                 <mat-icon class="mr-2">person</mat-icon>
                 <mat-form-field>
                   <input
+                    data-cy="user"
                     matInput
                     type="text"
                     placeholder="Username"
@@ -47,6 +67,7 @@
                 <mat-icon class="mr-2" *ngIf="!forgotPasswordFlow">lock</mat-icon>
                 <mat-form-field *ngIf="!forgotPasswordFlow">
                   <input
+                    data-cy="password"
                     matInput
                     [type]="hidePassword ? 'password' : 'text'"
                     placeholder="Password"
@@ -84,7 +105,6 @@
                   </li>
                 </ul>
               </div>
-
               <div class="d-flex align-items-center mb-3" id="newPasswordRow">
                 <mat-icon class="mr-2" *ngIf="forgotPasswordFlow && newPasswordEntry">lock</mat-icon>
                 <mat-form-field *ngIf="forgotPasswordFlow && newPasswordEntry">
@@ -152,13 +172,13 @@
               </div>
               <div class="row" id="loginButtonRow">
                 <div class="col">
-                  <button mat-raised-button color="primary" type="submit">
+                  <button data-cy="login-button" mat-raised-button color="primary" type="submit">
                     {{ submitButtonTitle }}
                   </button>
                 </div>
                 <div class="col">
                   <div class="d-flex flex-row justify-content-end forgot-password" *ngIf="!forgotPasswordFlow">
-                    <a style="cursor: pointer" class="d-flex flex-row justify-content-end" (click)="forgotPassword()"
+                    <a style="cursor:pointer" class="d-flex flex-row justify-content-end" (click)="forgotPassword()"
                       ><u>Forgot Password</u></a
                     >
                   </div>
