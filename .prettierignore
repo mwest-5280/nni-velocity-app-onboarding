@@ -1,0 +1,5 @@
+# Ignore CodeBuild YAML files
+buildspec*.yml
+package.json
+package-lock.json
+/dist

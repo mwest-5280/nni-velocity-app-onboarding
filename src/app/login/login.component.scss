@@ -1,0 +1,30 @@
+.login {
+  .mat-card-title h3 {
+    margin: 0;
+  }
+
+  .mat-card-content {
+    padding: 1rem 4rem 2rem;
+
+    form {
+      max-width: 100%;
+    }
+  }
+
+  #userNameRow,
+  #passwordRow {
+    margin-bottom: 1rem;
+  }
+
+  .mat-select-panel .mat-option {
+    span.mat-option-text {
+      span.bolder {
+        font-weight: 700 !important;
+      }
+    }
+  }
+
+  .forgot-password {
+    margin-top: 6px;
+  }
+}

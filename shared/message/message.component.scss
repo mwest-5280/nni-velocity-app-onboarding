@@ -1,0 +1,57 @@
+@import '../../../assets/sass/material/theme';
+
+$msg-background: #f5f5f5;
+
+$msg-success: #66a503;
+$msg-error: #c80600;
+$msg-warning: #ec7021;
+$msg-info: #359cd7;
+
+mat-card {
+  border-radius: 5px;
+  background-color: $msg-background;
+
+  &.success {
+    border: 1px solid $msg-success;
+  }
+  &.info {
+    border: 1px solid $msg-info;
+  }
+  &.warning {
+    border: 1px solid $msg-warning;
+  }
+  &.error {
+    border: 1px solid $msg-error;
+  }
+}
+
+mat-icon {
+  color: $white;
+  box-shadow: none;
+  height: 37px;
+  width: 24px;
+
+  &.close-btn {
+    color: black;
+  }
+}
+
+div.success {
+  background-color: $msg-success;
+  width: 45px;
+}
+
+div.error {
+  background-color: $msg-error;
+  width: 45px;
+}
+
+div.warning {
+  background-color: $msg-warning;
+  width: 45px;
+}
+
+div.info {
+  background-color: $msg-info;
+  width: 45px;
+}

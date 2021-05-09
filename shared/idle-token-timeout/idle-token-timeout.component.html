@@ -1,0 +1,6 @@
+<div *ngIf="showIdleTimer">
+  <p class="ml-2">
+    <b>token expiration warning:</b> {{ tokenExpirationWarning }}, <b>token expires:</b> {{ tokenExpires }},
+    <button (click)="showTokenWarningNow()">Show Token Warning Now</button>
+  </p>
+</div>

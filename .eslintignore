@@ -1,0 +1,6 @@
+package.json
+package-lock.json
+dist
+e2e/**
+.eslintcache
+// other files to ignore eslint

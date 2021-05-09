@@ -1,0 +1,173 @@
+<div class="login h-100">
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-md-6">
+        <mat-toolbar color="primary" class="mat-elevation-z5">
+          <h1>{{ pageTitle }}</h1>
+          <mat-icon class="ml-1">fingerprint</mat-icon>
+        </mat-toolbar>
+        <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+        <mat-card class="mat-elevation-z15">
+          <mat-card-content>
+            <form [formGroup]="loginForm" (submit)="onSubmit()" autocomplete="disabled" novalidate>
+              <app-message *ngIf="normalMsg" [type]="messageTypes.INFO" [message]="normalMsg"></app-message>
+              <app-message *ngIf="errMsg" [type]="messageTypes.ERROR" [message]="errMsg"></app-message>
+              <div class="d-flex align-items-center" *ngIf="poolOptions.length > 1">
+                <mat-icon class="mr-2">business</mat-icon>
+                <mat-form-field>
+                  <mat-select required formControlName="poolId">
+                    <mat-option [value]="config.id" *ngFor="let config of poolOptions">
+                      {{ config?.name }}{{ config?.name && config?.env ? ':' : '' }} <strong>{{ config?.env }}</strong>
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="loginForm.controls['poolId'].errors?.required && loginForm.controls['poolId'].dirty"
+                    >Please choose a lender.</mat-error
+                  >
+                </mat-form-field>
+              </div>
+              <div class="d-flex align-items-center" id="usernameRow" *ngIf="!newPasswordEntry">
+                <mat-icon class="mr-2">person</mat-icon>
+                <mat-form-field>
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Username"
+                    name="username"
+                    formControlName="username"
+                    autofocus
+                  />
+                  <mat-error
+                    *ngIf="loginForm.controls['username'].errors?.required && loginForm.controls['username'].dirty"
+                  >
+                    Please enter your username.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="d-flex align-items-center" id="passwordRow" *ngIf="!newPasswordEntry">
+                <mat-icon class="mr-2" *ngIf="!forgotPasswordFlow">lock</mat-icon>
+                <mat-form-field *ngIf="!forgotPasswordFlow">
+                  <input
+                    matInput
+                    [type]="hidePassword ? 'password' : 'text'"
+                    placeholder="Password"
+                    name="password"
+                    formControlName="password"
+                  />
+                  <span matSuffix>
+                    <button mat-icon-button class="pwViz" type="button" (click)="hidePassword = !hidePassword">
+                      <mat-icon>{{ hidePassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+                    </button>
+                  </span>
+                  <mat-error
+                    *ngIf="loginForm.controls['password'].errors?.required && loginForm.controls['password'].dirty"
+                  >
+                    Please enter your password.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <a
+                href="javascript:void 0"
+                class="txt-link"
+                (click)="toggleShowPasswordReqs()"
+                *ngIf="forgotPasswordFlow && newPasswordEntry"
+                >(Password Requirements)</a
+              >
+              <div *ngIf="showPasswordRequirements">
+                Your password may be any combination of <b id="length1">8 to 99 characters</b> and must contain:
+                <ul>
+                  <li id="capital1">At least <b>1 uppercase letter</b></li>
+                  <li id="lower1">At least <b>1 lowercase letter</b></li>
+                  <li id="pnum1">At least <b>1 number</b></li>
+                  <li id="spchar1">
+                    Your password must contain at least ONE of the following special characters
+                    <b>{{ specialCharacters }}</b>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="d-flex align-items-center mb-3" id="newPasswordRow">
+                <mat-icon class="mr-2" *ngIf="forgotPasswordFlow && newPasswordEntry">lock</mat-icon>
+                <mat-form-field *ngIf="forgotPasswordFlow && newPasswordEntry">
+                  <input
+                    matInput
+                    [type]="hideNewPassword ? 'password' : 'text'"
+                    placeholder="New Password"
+                    name="newPassword"
+                    formControlName="newPassword"
+                  />
+                  <span matSuffix>
+                    <button mat-icon-button class="pwViz" type="button" (click)="hideNewPassword = !hideNewPassword">
+                      <mat-icon>{{ hideNewPassword ? 'visibility' : 'visibility_off' }}</mat-icon>
+                    </button>
+                  </span>
+                  <mat-error
+                    *ngIf="
+                      loginForm.controls['newPassword'].errors?.required && loginForm.controls['newPassword'].dirty
+                    "
+                  >
+                    Please enter your NEW password.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      loginForm.controls['newPassword'].errors?.minlength && loginForm.controls['newPassword'].touched
+                    "
+                  >
+                    Please enter a password with at least 8 characters.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      loginForm.controls['newPassword'].errors?.maxlength && loginForm.controls['newPassword'].touched
+                    "
+                  >
+                    Please enter a password with at most 99 characters.
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      loginForm.controls['newPassword'].errors?.pattern && loginForm.controls['newPassword'].touched
+                    "
+                  >
+                    Please enter a password that meets the requirements.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="d-flex align-items-center" id="verificationCode">
+                <mat-icon class="mr-2" *ngIf="forgotPasswordFlow && newPasswordEntry">confirmation_number</mat-icon>
+                <mat-form-field *ngIf="forgotPasswordFlow && newPasswordEntry">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Verification Code"
+                    name="verificationCode"
+                    formControlName="verificationCode"
+                  />
+                  <mat-error
+                    *ngIf="
+                      loginForm.controls['verificationCode'].errors?.required &&
+                      loginForm.controls['verificationCode'].dirty
+                    "
+                  >
+                    Please enter your verification code.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row" id="loginButtonRow">
+                <div class="col">
+                  <button mat-raised-button color="primary" type="submit">
+                    {{ submitButtonTitle }}
+                  </button>
+                </div>
+                <div class="col">
+                  <div class="d-flex flex-row justify-content-end forgot-password" *ngIf="!forgotPasswordFlow">
+                    <a style="cursor: pointer" class="d-flex flex-row justify-content-end" (click)="forgotPassword()"
+                      ><u>Forgot Password</u></a
+                    >
+                  </div>
+                </div>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>
