@@ -5,7 +5,7 @@ import { AuthGuard, SkipIfAuthenticatedGuard } from './security';
 const routes: Routes = [
   {
     path: 'dashboard',
-    loadChildren: () => import('./consumer').then(m => m.ConsumerModule),
+    loadChildren: () => import('./dashboard').then(m => m.DashboardModule),
     canActivate: [AuthGuard]
   },
   {

@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
     this.forgotPasswordFlow = false;
     this.newPasswordEntry = false;
-    this.pageTitle = 'Onboarding HenchMan';
+    this.pageTitle = 'Onboarding';
     this.submitButtonTitle = 'Login';
 
     // depending on what environment we are in, we will show the different drop down options

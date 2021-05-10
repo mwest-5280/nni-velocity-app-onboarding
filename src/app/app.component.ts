@@ -11,7 +11,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'HenchMan';
+  title = 'Onboarding';
 
   subscriptions: Subscription[] = [];
   version = `${VERSION.version}+sha.${VERSION.sha}`;
