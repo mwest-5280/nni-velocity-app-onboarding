@@ -7,6 +7,7 @@ import { MaterialModule } from '../shared';
 import { ConsumerModule } from './consumer';
 import { EducationModule } from './education/education.module';
 import { CollapsibleCardModule } from '../shared/components/collapsible-card/collapsible-card.module';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
     declarations: [DashboardComponent],
@@ -15,9 +16,10 @@ import { CollapsibleCardModule } from '../shared/components/collapsible-card/col
         DashboardRoutingModule,
         HeaderModule,
         MaterialModule,
+        CollapsibleCardModule,
         ConsumerModule,
         EducationModule,
-        CollapsibleCardModule
+        MatSidenavModule
     ],
     exports: [DashboardComponent]
 })

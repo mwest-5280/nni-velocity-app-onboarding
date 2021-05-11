@@ -1,5 +1,12 @@
-<app-header></app-header>
-<ng-template #dashboardDescription>
+
+<mat-sidenav mode="side" opened class="side-navigation">
+  <div class="d-flex align-items-center ml-3 mt-4">
+    <img class="logo-size" src="assets/img/logo.svg" alt="nelnet logo" />
+    <h1 class="ml-3">Onboarding</h1>
+  </div>
+</mat-sidenav>
+<mat-sidenav-content class="side-content">Main content</mat-sidenav-content>
+<!-- <ng-template #dashboardDescription>
   <div class="w-100 d-flex">
     <div class="d-flex align-items-center mr-auto">
       <mat-icon class="large-icon-size mx-3" [inline]="true">dashboard</mat-icon>
@@ -17,4 +24,4 @@
     </mat-tab>
   </mat-tab-group>
 </ng-template>
-<app-collapsible-card [description]="dashboardDescription" [content]="dashboardContent"></app-collapsible-card>
+<app-collapsible-card [description]="dashboardDescription" [content]="dashboardContent"></app-collapsible-card> -->

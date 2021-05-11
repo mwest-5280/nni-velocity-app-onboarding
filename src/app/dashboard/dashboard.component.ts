@@ -12,6 +12,8 @@ export class DashboardComponent implements OnInit {
     @ViewChild(MatTabGroup) accountTabs: MatTabGroup;
     @ViewChild(CollapsibleCardComponent)
     collapsibleCard: CollapsibleCardComponent;
+    showFiller = false;
+
     constructor() {}
 
     ngOnInit(): void {}

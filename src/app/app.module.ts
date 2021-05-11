@@ -17,7 +17,6 @@ import { DevAuthGuard } from './security/dev-auth.guard';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from './shared/material.module';
 import { HttpLoggingInterceptor } from './core/logging/http-logging.interceptor';
-
 @NgModule({
   declarations: [AppComponent, CloseableSnackbarComponent],
   imports: [

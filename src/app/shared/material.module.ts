@@ -29,11 +29,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatStepperModule} from '@angular/material/stepper';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
   imports: [
+    MatSidenavModule,
     MatStepperModule,
     MatToolbarModule,
     MatMenuModule,
@@ -66,6 +67,7 @@ import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MatMomentDateModule } from '@angular/m
     MatMomentDateModule
   ],
   exports: [
+    MatSidenavModule,
     MatToolbarModule,
     MatMenuModule,
     MatFormFieldModule,

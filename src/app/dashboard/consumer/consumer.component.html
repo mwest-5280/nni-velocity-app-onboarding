@@ -1,6 +1,40 @@
 <mat-horizontal-stepper #stepper>
-  <mat-step [stepControl]="firstFormGroup">
-    <form [formGroup]="firstFormGroup">
+  <mat-step [stepControl]="generalSettingsForm">
+    <form [formGroup]="generalSettingsForm">
+      <ng-template matStepLabel>General Information</ng-template>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Loan Program ID</mat-label>
+            <input matInput placeholder="Loan Program ID" formControlName="loanProgramId" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Lender ID</mat-label>
+            <input matInput placeholder="Lender ID" formControlName="lenderId" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Call Back URL</mat-label>
+            <input matInput placeholder="Call Back URL" formControlName="callBackURL">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>itemId</mat-label>
+            <input matInput placeholder="Item ID" formControlName="itemId">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Batch ID</mat-label>
+            <input matInput placeholder="Batch ID" formControlName="batchId">
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="borrowerForm">
+    <form [formGroup]="borrowerForm">
       <ng-template matStepLabel>Add Borrower(s)</ng-template>
       <div class="row">
         <div class="col">
@@ -18,8 +52,8 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="secondFormGroup" label="Add Loan(s)">
-    <form [formGroup]="secondFormGroup">
+  <mat-step [stepControl]="loanForm" label="Add Loan(s)">
+    <form [formGroup]="loanForm">
       <div class="row">
         <div class="col">
           <mat-form-field>
