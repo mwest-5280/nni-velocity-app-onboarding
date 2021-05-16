@@ -1,0 +1,31 @@
+/* making the toggle switch's smaller */
+::ng-deep .mat-slide-toggle .mat-slide-toggle-bar {
+  height: 10px;
+  width: 28px;
+}
+
+::ng-deep .mat-slide-toggle .mat-slide-toggle-bar .mat-slide-toggle-thumb {
+  height: 14px;
+  width: 14px;
+}
+::ng-deep .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {
+  background-color: rgb(216, 213, 213);
+  box-shadow: inset 0 0 2px #666;
+}
+
+::ng-deep .mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
+  background-color: #8dce19;
+}
+
+::ng-deep .mat-slide-toggle .mat-slide-toggle-bar .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb-container {
+  transform: translate3d(18px, 0, 0) !important;
+}
+
+::ng-deep .mat-slide-toggle .mat-slide-toggle-bar .mat-slide-toggle-thumb-container {
+  width: 12px;
+  height: 12px;
+  top: -2px;
+}
+.text-uppercase{
+  font-size: 12px;
+}

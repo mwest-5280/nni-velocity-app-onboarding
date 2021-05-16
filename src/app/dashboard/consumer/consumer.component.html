@@ -2,6 +2,7 @@
   <mat-step [stepControl]="generalSettingsForm">
     <form [formGroup]="generalSettingsForm">
       <ng-template matStepLabel>General Information</ng-template>
+      <h4 class="mt-2">General Onboarding Information</h4>
       <div class="row">
         <div class="col">
           <mat-form-field>
@@ -36,19 +37,199 @@
   <mat-step [stepControl]="borrowerForm">
     <form [formGroup]="borrowerForm">
       <ng-template matStepLabel>Add Borrower(s)</ng-template>
+      <h4 class="mt-2">Load borrower already on the system, or a new borrower</h4>
       <div class="row">
         <div class="col">
           <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+            <mat-label>Borrower Id</mat-label>
+            <input matInput placeholder="Borrower Id (if already loaded onto the system)" formControlName="borrowerId">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Borrower Number</mat-label>
+            <input matInput placeholder="Borrower Number" formControlName="borrowerNumber">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Borrower Type</mat-label>
+            <mat-select placeholder="Borrower Type" formControlName="borrowerType">
+              <mat-option *ngFor="let type of borrowerType" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>External Reference ID</mat-label>
+            <input matInput placeholder="External Reference ID" formControlName="externalReferenceId">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Social Security Number</mat-label>
+            <input matInput placeholder="Social Security Number" formControlName="ssn">
           </mat-form-field>
         </div>
         <div class="col">
-
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="First Name" formControlName="firstName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Middle Name</mat-label>
+            <input matInput placeholder="Middle Name" formControlName="middleName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput placeholder="Last Name" formControlName="lastName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Suffix</mat-label>
+            <input matInput placeholder="Suffix" formControlName="suffix">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Date of Birth</mat-label>
+            <input matInput placeholder="Date of Birth" formControlName="dob">
+          </mat-form-field>
         </div>
       </div>
-      <div>
-        <button mat-button matStepperNext>Next</button>
+      <app-divider></app-divider>
+      <h4 class="mt-2">Borrower Flags</h4>
+      <app-divider class="mb-4"></app-divider>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Active Military</mat-label>
+            <input matInput placeholder="Active Military" formControlName="activeMilitary">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Accepted e-Correspondence</mat-label>
+            <input matInput placeholder="Accepted e-Correspondence" formControlName="ecorrAccepted">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Active Privacy</mat-label>
+            <input matInput placeholder="Active Privacy" formControlName="activePrivacy">
+          </mat-form-field>
+        </div>
+      </div>
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Borrower Address('s)</h4>
+        </div>
+        <div class="col">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addAddress()">
+            <span class="material-icons info-icon">add_circle</span> Add Address
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container formArrayName="addresses">
+          <div *ngFor="let add of addresses.controls; let i = index" formGroupName="{{ i }}">
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Street 1</mat-label>
+                  <input matInput type="text" placeholder="Street 1" formControlName="street1" />
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Street 2</mat-label>
+                  <input matInput type="text" placeholder="Street 2" formControlName="street2" />
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>City</mat-label>
+                  <input matInput type="text" placeholder="City" formControlName="city" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>State</mat-label>
+                  <mat-select formControlName="state" ngDefaultControl>
+                    <mat-option *ngFor="let st of states$ | async" [value]="st.abbreviation">
+                      {{ st.abbreviation }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Postal Code</mat-label>
+                  <input matInput type="text" placeholder="Postal Code" formControlName="postalCode">
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="countryCode">
+                    <mat-option *ngFor="let co of countries$ | async" [value]="co.code">
+                      {{ co.code }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Borrower Phone Number('s)</h4>
+        </div>
+        <div class="col">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addPhone()">
+            <span class="material-icons info-icon">add_circle</span> Add Phone
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container formArrayName="phoneNumbers">
+          <div *ngFor="let phone of phoneNumbers.controls; let phIndex = index" formGroupName="{{phIndex}}">
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Cell Phone Consent"
+                  formControlName="hasCellPhoneConsent">
+                  <span class="mat-body-strong text-uppercase">Cell Phone Consent</span>
+                </mat-slide-toggle>
+                <strong>|</strong>
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Primary Phone" formControlName="isPrimary">
+                  <span class="mat-body-strong text-uppercase">Primary</span>
+                </mat-slide-toggle>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Phone Type</mat-label>
+                  <mat-select placeholder="Phone Type" formControlName="type">
+                    <mat-option *ngFor="let type of phoneType" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Mobile Phone" formControlName="isMobile">
+                  <span class="mat-body-strong text-uppercase">Mobile</span>
+                </mat-slide-toggle>
+                <mat-form-field>
+                  <mat-label *ngIf="phIndex === 0">Primary Phone Number</mat-label>
+                  <mat-label *ngIf="phIndex !== 0">Alternate Phone Number</mat-label>
+                  <input matInput placeholder="Phone Number" formControlName="phoneNumber" [showMaskTyped]="true"
+                    prefix="+1" mask="(000) 000-0000" type="text" />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
       </div>
     </form>
   </mat-step>
