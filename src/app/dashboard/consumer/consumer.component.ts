@@ -17,9 +17,8 @@ export class ConsumerComponent implements OnInit {
     borrowerForm: FormGroup;
     loanForm: FormGroup;
     showAddressBorder = false;
-
+    /* loan rate types */
     rateTypes: string[] = ['Fixed', 'Variable'];
-
     /* borrower Type */
     borrowerType = ['Correspondence', 'Payment'];
     /* phone type */
@@ -70,23 +69,55 @@ export class ConsumerComponent implements OnInit {
             loanNumber: '',
             customData: this.fb.array([this.getCustomDataControls()]),
             investors: this.fb.array([]),
-            disbursements: this.fb.array([
-                this.getDisbursementControls(),
-                Validators.required
-            ]),
-            loanPeriods: this.fb.array([this.getLoanPeriods(), Validators.required])
+            disbursements: this.fb.array([]),
+            loanPeriods: this.fb.array([])
         });
         this.addAddress();
         this.addPhone();
+        this.setDisbursementsControls();
+        this.setLoanPeriods();
     }
-    getLoanPeriods() {}
-    getDisbursementControls() {
-        return this.fb.group({
-            disbursementDate: ['', Validators.required],
-            amount: ['', Validators.required],
-            originationFee: ''
+
+    setDisbursementsControls() {
+        const dis = this.fb.group({
+            disbursementDate: [''],
+            amount: [''],
+            originationFee: [''],
+            externalReferenceId: ['']
         });
+        (this.loanForm.get('disbursements') as FormArray).push(dis);
     }
+    // gets disbursements to push controls into form array
+    get disbursements(): FormArray {
+        return this.loanForm.get('disbursements') as FormArray;
+    }
+
+    /* add address from form */
+    addD() {
+        this.setDisbursementsControls();
+    }
+    /* delete addresses */
+    removeD(i: number) {
+        this.disbursements.removeAt(i);
+    }
+
+    // gets loanPeriods to push controls into form array
+    get loanPeriods(): FormArray {
+        return this.loanForm.get('loanPeriods') as FormArray;
+    }
+    setLoanPeriods() {
+        const periods = this.fb.group({
+            fixedPaymentAmount: [''],
+            fixedFirstPaymentDate: [''],
+            fixedStartDate: [''],
+            fixedReduceTerm: [''],
+            fixedPaymentFrequency: [''],
+            fixedCapInterestAtStart: [''],
+            fixedLoanPeriodTags: ['']
+        });
+        (this.loanForm.get('loanPeriods') as FormArray).push(periods);
+    }
+
     getCustomDataControls() {
         return this.fb.group({
             keyArray: [],
@@ -123,7 +154,7 @@ export class ConsumerComponent implements OnInit {
             type: [''],
             phoneNumber: [''],
             isPrimary: [''],
-            isMobile: [""],
+            isMobile: [''],
             hasCellPhoneConsent: ['']
         });
         (this.borrowerForm.get('phoneNumbers') as FormArray).push(phones);

@@ -238,15 +238,168 @@
       <div class="row">
         <div class="col">
           <mat-form-field>
-            <mat-label>Loan</mat-label>
-            <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
+            <mat-label>Term</mat-label>
+            <input matInput formControlName="term" placeholder="Term" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Interest Rate</mat-label>
+            <input matInput formControlName="interestRate" placeholder="Interest Rate" required>
           </mat-form-field>
         </div>
         <div class="col">
-
+          <mat-form-field>
+            <mat-label>Rate Type</mat-label>
+            <mat-select placeholder="Rate Type" formControlName="rateType">
+              <mat-option *ngFor="let type of rateTypes" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>External Reference Id</mat-label>
+            <input matInput formControlName="externalReferenceId" placeholder="External Reference Id" required>
+          </mat-form-field>
+        </div>
+      </div>
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Disbursements</h4>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <button class="no-btn-styles icons">
+                <span class="material-icons info-icon">remove_circle</span> Remove
+              </button>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon" (click)="addD()">
+                <span class="material-icons info-icon">add_circle</span> Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <app-divider class="mb-4"></app-divider>
+      <div formArrayName="disbursements">
+        <div *ngFor="let disburse of disbursements.controls; let d = index" formGroupName="{{d}}">
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Disbursement Date</mat-label>
+                <input matInput placeholder="Disbursement Date" formControlName="disbursementDate" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Amount</mat-label>
+                <input matInput formControlName="amount" placeholder="Amount" required>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Origination Fee</mat-label>
+                <input matInput formControlName="originationFee" placeholder="Origination Fee" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>External Reference Id</mat-label>
+                <input matInput formControlName="externalReferenceId" placeholder="External Reference Id" required>
+              </mat-form-field>
+            </div>
+          </div>
         </div>
       </div>
 
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Loan Periods</h4>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col">
+              <button class="no-btn-styles icons">
+                <span class="material-icons info-icon">remove_circle</span> Remove
+              </button>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon">
+                <span class="material-icons info-icon">add_circle</span> Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- loan periods start -->
+      <app-divider class="mb-4"></app-divider>
+      <div formArrayName="loanPeriods">
+        <div *ngFor="let period of loanPeriods.controls; let d = index" formGroupName="{{d}}">
+          <!-- fixed amount -->
+          <div class="row">
+            <span class="overline">
+              Fixed Amount
+            </span>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Payment Amount</mat-label>
+                <input matInput placeholder="Payment Amount" formControlName="fixedPaymentAmount" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>First Payment Date</mat-label>
+                <input matInput formControlName="First Payment Date" placeholder="fixedFirstPaymentDate" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Start Date</mat-label>
+                <input matInput formControlName="Start Date" placeholder="fixedStartDate" required>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Reduce Term</mat-label>
+                <input matInput formControlName="fixedReduceTerm" placeholder="Reduce Term" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Payment Frequency</mat-label>
+                <input matInput formControlName="fixedPaymentFrequency" placeholder="Payment Frequency" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Cap Interest At Start</mat-label>
+                <input matInput formControlName="fixedCapInterestAtStart" placeholder="Cap Interest At Start" required>
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Loan Period Tags</mat-label>
+                <input matInput formControlName="fixedLoanPeriodTags" placeholder="Loan Period Tags" required>
+              </mat-form-field>
+            </div>
+          </div>
+          <app-divider class="mb-4"></app-divider>
+          <!-- deferment -->
+          <div class="row">
+            <span class="overline">
+              Deferment
+            </span>
+
+          </div>
+          <app-divider class="mb-4"></app-divider>
+          <!-- interest only -->
+          <div clas="row">
+            <span class="overline">
+              Interest Only
+            </span>
+
+          </div>
+          <app-divider class="mb-4"></app-divider>
+          <!-- principal and interest -->
+          <div class="row">
+            <span class="overline">
+              Principal and Interest
+            </span>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- buttons -->
+      <app-divider class="mb-4"></app-divider>
       <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
