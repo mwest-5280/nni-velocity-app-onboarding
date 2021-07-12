@@ -316,222 +316,222 @@
         <div class="col">
           <h4 class="mt-2">Loan Periods</h4>
         </div>
-        <!-- add/remove btns -->
-        <div class="col">
-          <div class="row">
-            <div class="col">
-              <button class="no-btn-styles icons">
-                <span class="material-icons info-icon">remove_circle</span> Remove
-              </button>
-            </div>
-            <div class="col">
-              <button class="no-btn-styles icons add-icon">
-                <span class="material-icons info-icon">add_circle</span> Add
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
       <app-divider class="mb-4"></app-divider>
-      <div formArrayName="loanPeriods">
-        <div *ngFor="let period of loanPeriods.controls; let p = index" formArrayName={{p}}>
-          <!--      <div class="row">
-            <div class="col">
-              <mat-form-field>
-                <mat-label>Loan Period Type</mat-label>
-                <mat-select placeholder="Select Loan Period Type" formControlName="loanPeriodType"
-                  (ngModelChange)="onSelectChange($event)">
-                  <mat-option *ngFor="let type of loanPeriodType" [value]="type">
-                    {{ type }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div class="col">
-            </div>
-          </div>-->
+        <div [formGroup]="loanPeriodForm">
           <!-- fixed amount form -->
-          <form [formGroup]="fixedAmount">
-            <div class="row">
-              <div class="col">
-                <span class="mb-4 overline">
-                  Fixed Amount
-                </span>
-                <app-divider></app-divider>
-                <mat-form-field>
-                  <mat-label>Payment Amount</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="paymentAmount" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>First Payment Date</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Payment Frequency</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Cap Interest At Start</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Start Date</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Reduce Term</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                </mat-form-field>
-              </div>
-              <div class="col">
-                <span class="mb-4 overline">
-                  <!-- need the space here -->
-                </span>
-                <mat-form-field>
-                  <mat-label>Reporting Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Period Tags</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
-                </mat-form-field>
+          <div class="row" formGroupName="fixedAmount">
+            <div class="col">
+              <span class="mb-4 overline">
+                Fixed Amount
+              </span>
+              <app-divider class="mb-4"></app-divider>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field>
+                    <mat-label>Payment Amount</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="paymentAmount" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>First Payment Date</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Payment Frequency</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Cap Interest At Start</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Start Date</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Reduce Term</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field>
+                    <mat-label>Reporting Status</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Loan Status</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Tags</mat-label>
+                    <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
+                  </mat-form-field>
+                  <!--  <ng-container formArrayName='fixedAmountTags'>
+                    <ng-container *ngFor="let fixed of fixedTags(p).controls; let fix = index">
+                      <mat-form-field>
+                        <mat-label>Loan Period Tags</mat-label>
+                        <input matInput placeholder="Payment Amount" formControlName="tags" required>
+                      </mat-form-field>
+                    </ng-container>
+                  </ng-container> -->
+                </div>
               </div>
             </div>
-          </form>
+          </div>
+
           <!-- deferment form -->
-          <form [formGroup]="deferment">
-            <div class="row">
-              <div class="col">
-                <span class="mb-4 overline">
-                  Deferment
-                </span>
-                <app-divider></app-divider>
-                <mat-form-field>
-                  <mat-label>Cap Interest At Start</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Start Date</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Reduce Term</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                </mat-form-field>
-              </div>
-              <div class="col">
-                <span class="mb-4 overline">
-                  <!-- need the space here -->
-                </span>
-                <mat-form-field>
-                  <mat-label>Reporting Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Period Tags</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
-                </mat-form-field>
-              </div>
+          <!-- <div class="row">
+            <div class="col">
+              <span class="mb-4 overline">
+                Deferment
+              </span>
+              <app-divider class="mb-4"></app-divider>
+              <form [formGroup]="deferment">
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field>
+                      <mat-label>Cap Interest At Start</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Start Date</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Reduce Term</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <span class="mb-4 overline">
+                    </span>
+                    <mat-form-field>
+                      <mat-label>Reporting Status</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Loan Status</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
+                    </mat-form-field>
+                    <ng-container formArrayName='defermentTags'>
+                      <ng-container *ngFor="let tag of defermentTags.controls; let t = index"></ng-container>
+                      <mat-form-field>
+                        <mat-label>Loan Period Tags</mat-label>
+                        <input matInput placeholder="Loan Period Tags" formControlName="tag" required>
+                      </mat-form-field>
+                    </ng-container>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
-          <form [formGroup]="interestOnly">
-            <div class="row">
-              <div class="col">
-                <span class="mb-4 overline">
-                  Interest Only
-                </span>
-                <app-divider></app-divider>
-                <mat-form-field>
-                  <mat-label>First Payment Date</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Payment Frequency</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Cap Interest At Start</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Start Date</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                </mat-form-field>
-              </div>
-              <div class="col">
-                <mat-form-field>
-                  <mat-label>Reduce Term</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Reporting Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Period Tags</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
-                </mat-form-field>
+          </div> -->
 
-              </div>
+          <!-- interest only -->
+          <!-- <div class="row">
+            <div class="col">
+              <span class="mb-4 overline">
+                Interest Only
+              </span>
+              <app-divider class="mb-4"></app-divider>
+              <form [formGroup]="interestOnly">
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field>
+                      <mat-label>First Payment Date</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Payment Frequency</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Cap Interest At Start</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Start Date</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <mat-form-field>
+                      <mat-label>Reduce Term</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Reporting Status</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Loan Status</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
+                    </mat-form-field>
+                    <ng-container formArrayName='interestOnlyTags'>
+                      <ng-container *ngFor="let tag of interestOnlyTags.controls; let t = index"></ng-container>
+                      <mat-form-field>
+                        <mat-label>Loan Period Tags</mat-label>
+                        <input matInput placeholder="Loan Period Tags" formControlName="tag" required>
+                      </mat-form-field>
+                    </ng-container>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
+          </div> -->
 
+          <!-- principal and interest
           <div class="row">
             <div class="col">
               <span class="mb-4 overline">
                 Principal and Interest
               </span>
-              <app-divider></app-divider>
+              <app-divider class="mb-4"></app-divider>
               <form [formGroup]="principalAndInterest">
-                <mat-form-field>
-                  <mat-label>First Payment Date</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Payment Frequency</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Cap Interest At Start</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Start Date</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Reduce Term</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Reporting Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Status</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                </mat-form-field>
-                <mat-form-field>
-                  <mat-label>Loan Period Tags</mat-label>
-                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
-                </mat-form-field>
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field>
+                      <mat-label>First Payment Date</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Payment Frequency</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Cap Interest At Start</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Start Date</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Reduce Term</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <mat-form-field>
+                      <mat-label>Reporting Status</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>Loan Status</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
+                    </mat-form-field>
+                    <ng-container formArrayName='principalInterestTags'>
+                      <ng-container *ngFor="let tag of principalInterestTags.controls; let t = index"></ng-container>
+                      <mat-form-field>
+                        <mat-label>Loan Period Tags</mat-label>
+                        <input matInput placeholder="Loan Period Tags" formControlName="tag">
+                      </mat-form-field>
+                    </ng-container>
+                  </div>
+                </div>
               </form>
             </div>
-          </div>
+          </div>-->
         </div>
-      </div>
 
       <!-- buttons -->
       <app-divider class="mb-4"></app-divider>
