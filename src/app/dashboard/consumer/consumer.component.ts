@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import {
+    FormGroup,
+    FormBuilder,
+    Validators,
+    FormArray,
+    FormControl
+} from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
     State,
@@ -15,24 +21,40 @@ import {
 export class ConsumerComponent implements OnInit {
     generalSettingsForm: FormGroup;
     borrowerForm: FormGroup;
+    coBorrowerForm: FormGroup;
     loanForm: FormGroup;
     loanPeriodForm: FormGroup;
     fixedAmount: FormGroup;
     deferment: FormGroup;
     interestOnly: FormGroup;
-    principalAndInterest: FormGroup;
+    principalInterest: FormGroup;
     showAddressBorder = false;
+
     /* loan rate types */
-    rateTypes: string[] = ['Fixed', 'Variable'];
+    rateTypes = ['Fixed', 'Variable'];
+
     /* borrower Type */
-    borrowerType = ['Correspondence', 'Payment'];
+    borrowerType = [];
+
     /* phone type */
     phoneType = ['home', 'work', 'other'];
+
     /* loan period types */
     loanPeriodType = ['fixedAmount', 'deferment', 'interestOnly', 'principalAndInterest'];
-    selectedLoanPeriod: string;
     paymentFrequency = ['weekly', 'bi-weekly', 'monthly', 'quarterly'];
     loanStatus = ['repayment', 'deferred'];
+
+    /* variables to show/hide loan period forms */
+    showFixedAmount = false;
+    showDeferment = false;
+    showInterestOnly = false;
+    showprincipalAndInterest = false;
+
+    /* address form things */
+    isPrimary: { key: string; value: boolean }[] = [
+        { key: 'Yes', value: true },
+        { key: 'No', value: false }
+    ];
 
     states$: Observable<State[]> = this.stateCountryService.states$;
     countries$: Observable<Country[]> = this.stateCountryService.usaOnly$;
@@ -58,10 +80,11 @@ export class ConsumerComponent implements OnInit {
             suffix: '',
             ssn: ['', Validators.required],
             dob: ['', Validators.required],
+            score: [''],
             addresses: this.fb.array([]),
             phoneNumbers: this.fb.array([]),
             emailAddresses: this.fb.array([]),
-            customData: this.fb.array([this.getCustomDataControls()]),
+            customData: [''],
             activeMilitary: ['', Validators.required],
             activePrivacy: ['', Validators.required],
             externalReferenceId: '',
@@ -70,6 +93,27 @@ export class ConsumerComponent implements OnInit {
             walletId: '',
             borrowerType: ['', Validators.required]
         });
+        this.coBorrowerForm = this.fb.group({
+          borrowerId: ['', Validators.required],
+          firstName: ['', Validators.required],
+          middleName: '',
+          lastName: ['', Validators.required],
+          suffix: '',
+          ssn: ['', Validators.required],
+          dob: ['', Validators.required],
+          score: [''],
+          addresses: this.fb.array([]),
+          phoneNumbers: this.fb.array([]),
+          emailAddresses: this.fb.array([]),
+          customData: [''],
+          activeMilitary: ['', Validators.required],
+          activePrivacy: ['', Validators.required],
+          externalReferenceId: '',
+          borrowerNumber: '',
+          ecorrAccepted: ['', Validators.required],
+          walletId: '',
+          borrowerType: ['', Validators.required]
+      });
         this.loanForm = this.fb.group({
             term: ['', Validators.required] /* integer only */,
             interestRate: ['', Validators.required] /* numbers only */,
@@ -77,9 +121,10 @@ export class ConsumerComponent implements OnInit {
             rateType: ['', Validators.required],
             externalReferenceId: '',
             loanNumber: '',
-            customData: this.fb.array([this.getCustomDataControls()]),
+            customData: '',
             investors: this.fb.array([]),
-            disbursements: this.fb.array([])
+            disbursements: this.fb.array([]),
+            loanPeriodTypes: this.fb.array([])
         });
         this.loanPeriodForm = this.fb.group({
             fixedAmount: this.fb.group({
@@ -97,14 +142,80 @@ export class ConsumerComponent implements OnInit {
                 capInterestAtStart: [''],
                 startDate: [''],
                 reduceTerm: [''],
-                loanPeriodTags: '',
+                loanPeriodTags: [''],
                 reportingStatus: [''],
                 loanStatus: ['']
+            }),
+            interestOnly: this.fb.group({
+                firstPaymentDate: [''],
+                paymentFrequency: [''],
+                capInterestAtStart: [''],
+                startDate: [''],
+                reduceTerm: [''],
+                loanPeriodTags: [''],
+                reportingStatus: [''],
+                loanStatus: ['']
+            }),
+            principalInterest: this.fb.group({
+                firstPaymentDate: [''],
+                paymentFrequency: [''],
+                capInterestAtStart: [''],
+                startDate: [''],
+                reduceTerm: [''],
+                reportingStatus: [''],
+                loanStatus: [''],
+                loanPeriodTags: ['']
             })
         });
         this.addAddress();
         this.addPhone();
         this.setDisbursementsControls();
+        this.addEmail();
+        this.addCoBorrowerEmail();
+        this.addCoBorrowerAddress();
+        this.addCoBorrowerPhone();
+    }
+    onChange(event) {
+        const loanPerTypes = (<FormArray>(
+            this.loanForm.get('loanPeriodTypes')
+        )) as FormArray;
+        const sourceType = event.source.value;
+        if (event.checked) {
+            loanPerTypes.push(new FormControl(event.source.value));
+            switch (sourceType) {
+                case 'fixedAmount':
+                    this.showFixedAmount = true;
+                    break;
+                case 'deferment':
+                    this.showDeferment = true;
+                    break;
+                case 'interestOnly':
+                    this.showInterestOnly = true;
+                    break;
+                case 'principalAndInterest':
+                    this.showprincipalAndInterest = true;
+                    break;
+            }
+        } else {
+            const i = loanPerTypes.controls.findIndex(
+                (x) => x.value === event.source.value
+            );
+            loanPerTypes.removeAt(i);
+            switch (sourceType) {
+                case 'fixedAmount':
+                    this.showFixedAmount = false;
+                    break;
+                case 'deferment':
+                    this.showDeferment = false;
+                    break;
+                case 'interestOnly':
+                    this.showInterestOnly = false;
+                    break;
+                case 'principalAndInterest':
+                    this.showprincipalAndInterest = false;
+                    break;
+            }
+        }
     }
 
     setDisbursementsControls() {
@@ -141,16 +252,9 @@ export class ConsumerComponent implements OnInit {
         });
         return fixedArray;
     }
-
-    getCustomDataControls() {
-        return this.fb.group({
-            keyArray: [],
-            valueArray: []
-        });
-    }
     setAddressFields() {
         const add = this.fb.group({
-            type: [''],
+            isPrimary: [''],
             street1: [''],
             street2: [''],
             city: [''],
@@ -172,6 +276,7 @@ export class ConsumerComponent implements OnInit {
     removeAddress(i: number) {
         this.addresses.removeAt(i);
     }
+
     // sets phones form array
     setPhones() {
         const phones = this.fb.group({
@@ -194,48 +299,31 @@ export class ConsumerComponent implements OnInit {
     removePhone(ph: number) {
         this.phoneNumbers.removeAt(ph);
     }
-
-    setDeferment() {
-        this.deferment = this.fb.group({
-            capInterestAtStart: [''],
-            startDate: [''],
-            reduceTerm: [''],
-            loanPeriodTags: '',
-            reportingStatus: [''],
-            loanStatus: ['']
+    // gets emailAddresses to push data into form array
+    get emailAddresses(): FormArray {
+        return this.borrowerForm.get('emailAddresses') as FormArray;
+    }
+    addEmail() {
+      this.setEmails();
+    }
+     /* delete email */
+     removeEmail(em: number) {
+      this.emailAddresses.removeAt(em);
+  }
+    setEmails() {
+        const emails = this.fb.group({
+            isPrimary: [''],
+            emailAddress: ['']
         });
+        (this.borrowerForm.get('emailAddresses') as FormArray).push(emails);
     }
-    get defermentTags(): FormArray {
-        return this.deferment.get('loanPeriodTags') as FormArray;
-    }
-    setInterestOnly() {
-        this.interestOnly = this.fb.group({
-            firstPaymentDate: [''],
-            paymentFrequency: [''],
-            capInterestAtStart: [''],
-            startDate: [''],
-            reduceTerm: [''],
-            loanPeriodTags: '',
-            reportingStatus: [''],
-            loanStatus: ['']
-        });
-    }
-    get interestOnlyTags(): FormArray {
-        return this.interestOnly.get('loanPeriodTags') as FormArray;
-    }
-    setPrincipalAndInterest() {
-        this.principalAndInterest = this.fb.group({
-            firstPaymentDate: [''],
-            paymentFrequency: [''],
-            capInterestAtStart: [''],
-            startDate: [''],
-            reduceTerm: [''],
-            loanPeriodTags: this.fb.array([]),
-            reportingStatus: [''],
-            loanStatus: ['']
-        });
-    }
-    get principalInterestTags(): FormArray {
-        return this.principalAndInterest.get('loanPeriodTags') as FormArray;
+    grabData() {
+        const mergeAll = {
+            generalSettings: this.generalSettingsForm.value,
+            borrowerForm: this.borrowerForm.value,
+            coBorrowerForm: this.coBorrowerForm.value,
+            loanForm: this.loanForm.value
+        };
+        console.log(mergeAll);
     }
 }

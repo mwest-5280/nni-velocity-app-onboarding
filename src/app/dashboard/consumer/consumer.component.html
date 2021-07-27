@@ -3,6 +3,7 @@
     <form [formGroup]="generalSettingsForm">
       <ng-template matStepLabel>General Information</ng-template>
       <h4 class="mt-2">General Onboarding Information</h4>
+      <app-divider class="mb-4"></app-divider>
       <div class="row">
         <div class="col">
           <mat-form-field>
@@ -12,10 +13,6 @@
           <mat-form-field>
             <mat-label>Lender ID</mat-label>
             <input matInput placeholder="Lender ID" formControlName="lenderId" required>
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Call Back URL</mat-label>
-            <input matInput placeholder="Call Back URL" formControlName="callBackURL">
           </mat-form-field>
         </div>
         <div class="col">
@@ -28,16 +25,25 @@
             <input matInput placeholder="Batch ID" formControlName="batchId">
           </mat-form-field>
         </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Call Back URL</mat-label>
+            <input matInput placeholder="Call Back URL" formControlName="callBackURL">
+          </mat-form-field>
+        </div>
+
       </div>
+      <app-divider class="mb-3"></app-divider>
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button class="mr-2" mat-raised-button color="primary" matStepperNext (click)="grabData()">Next</button>
       </div>
     </form>
   </mat-step>
   <mat-step [stepControl]="borrowerForm">
     <form [formGroup]="borrowerForm">
-      <ng-template matStepLabel>Add Borrower(s)</ng-template>
-      <h4 class="mt-2">Load borrower already on the system, or a new borrower</h4>
+      <ng-template matStepLabel>Add Primary Borrower</ng-template>
+      <h4 class="mt-2">Load a borrower already on the system, or add a new borrower</h4>
+      <app-divider class="mb-4"></app-divider>
       <div class="row">
         <div class="col">
           <mat-form-field>
@@ -50,19 +56,11 @@
           </mat-form-field>
           <mat-form-field>
             <mat-label>Borrower Type</mat-label>
-            <mat-select placeholder="Borrower Type" formControlName="borrowerType">
-              <mat-option *ngFor="let type of borrowerType" [value]="type">
-                {{ type }}
-              </mat-option>
-            </mat-select>
+            <input matInput placeholder="Borrower Type" formControlName="borrowerType" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>External Reference ID</mat-label>
             <input matInput placeholder="External Reference ID" formControlName="externalReferenceId">
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Social Security Number</mat-label>
-            <input matInput placeholder="Social Security Number" formControlName="ssn">
           </mat-form-field>
         </div>
         <div class="col">
@@ -82,9 +80,23 @@
             <mat-label>Suffix</mat-label>
             <input matInput placeholder="Suffix" formControlName="suffix">
           </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Social Security Number</mat-label>
+            <input matInput placeholder="Social Security Number" formControlName="ssn">
+          </mat-form-field>
           <mat-form-field>
             <mat-label>Date of Birth</mat-label>
             <input matInput placeholder="Date of Birth" formControlName="dob">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Score</mat-label>
+            <input matInput placeholder="Score" formControlName="score">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Custom Data</mat-label>
+            <input matInput placeholder="Custom Data" formControlName="customData">
           </mat-form-field>
         </div>
       </div>
@@ -97,6 +109,8 @@
             <mat-label>Active Military</mat-label>
             <input matInput placeholder="Active Military" formControlName="activeMilitary">
           </mat-form-field>
+        </div>
+        <div class="col">
           <mat-form-field>
             <mat-label>Accepted e-Correspondence</mat-label>
             <input matInput placeholder="Accepted e-Correspondence" formControlName="ecorrAccepted">
@@ -126,9 +140,17 @@
             <app-divider class="mb-4"></app-divider>
             <div class="row">
               <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Primary Address" formControlName="isPrimary">
+                  <span class="mat-body-strong text-uppercase">Primary</span>
+                </mat-slide-toggle>
+              </div>
+              <div class="col">&nbsp;</div>
+            </div>
+            <div class="row">
+              <div class="col">
                 <mat-form-field>
                   <mat-label>Street 1</mat-label>
-                  <input matInput type="text" placeholder="Street 1" formControlName="street1" />
+                  <input matInput type="text" placeholder="Street 1" formControlName="street1" required />
                 </mat-form-field>
               </div>
               <div class="col">
@@ -140,7 +162,7 @@
               <div class="col">
                 <mat-form-field>
                   <mat-label>City</mat-label>
-                  <input matInput type="text" placeholder="City" formControlName="city" />
+                  <input matInput type="text" placeholder="City" formControlName="city" required />
                 </mat-form-field>
               </div>
             </div>
@@ -149,7 +171,7 @@
                 <mat-form-field>
                   <mat-label>State</mat-label>
                   <mat-select formControlName="state" ngDefaultControl>
-                    <mat-option *ngFor="let st of states$ | async" [value]="st.abbreviation">
+                    <mat-option *ngFor="let st of states$ | async" [value]="st.abbreviation" required>
                       {{ st.abbreviation }}
                     </mat-option>
                   </mat-select>
@@ -158,13 +180,13 @@
               <div class="col">
                 <mat-form-field>
                   <mat-label>Postal Code</mat-label>
-                  <input matInput type="text" placeholder="Postal Code" formControlName="postalCode">
+                  <input matInput type="text" placeholder="Postal Code" formControlName="postalCode" required>
                 </mat-form-field>
               </div>
               <div class="col">
                 <mat-form-field>
                   <mat-label>Country</mat-label>
-                  <mat-select formControlName="countryCode">
+                  <mat-select formControlName="countryCode" required>
                     <mat-option *ngFor="let co of countries$ | async" [value]="co.code">
                       {{ co.code }}
                     </mat-option>
@@ -217,7 +239,7 @@
                   <mat-label *ngIf="phIndex === 0">Primary Phone Number</mat-label>
                   <mat-label *ngIf="phIndex !== 0">Alternate Phone Number</mat-label>
                   <input matInput placeholder="Phone Number" formControlName="phoneNumber" [showMaskTyped]="true"
-                    prefix="+1" mask="(000) 000-0000" type="text" />
+                    prefix="+1" mask="(000) 000-0000" type="text" required />
                 </mat-form-field>
               </div>
             </div>
@@ -227,13 +249,296 @@
       <app-divider></app-divider>
       <div class="row">
         <div class="col">
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <h4 class="mt-2">Borrower Email Address('s)</h4>
+        </div>
+        <div class="col">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addEmail()">
+            <span class="material-icons info-icon">add_circle</span> Add Email
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container formArrayName="emailAddresses">
+          <div *ngFor="let email of emailAddresses.controls; let em = index" formGroupName="{{em}}">
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Primary Email" formControlName="isPrimary">
+                  <span class="mat-body-strong text-uppercase">Primary</span>
+                </mat-slide-toggle>
+                <mat-form-field>
+                  <mat-label>Email Address</mat-label>
+                  <input matInput placeholder="Email Address" formControlName="emailAddress" required />
+                </mat-form-field>
+              </div>
+              <div class="col">
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <app-divider class="mb-3"></app-divider>
+      <div class="row">
+        <div class="col">
+          <button mat-stroked-button color="accent" matStepperPrevious class="margin-right-15">Back</button>
+          <button class="mr-2" mat-raised-button color="primary" matStepperNext (click)="grabData()">Next</button>
         </div>
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="loanForm" label="Add Loan(s)">
+  <mat-step [stepControl]="coBorrowerForm">
+    <form [formGroup]="coBorrowerForm">
+      <ng-template matStepLabel>Add Co-Borrower/Signer <span class="txt-small">*optional step</span> </ng-template>
+      <h4 class="mt-2">Load a co-borrower already on the system, or add a new co-borrower</h4>
+      <h5 class="txt-small">*this step is optional</h5>
+      <app-divider class="mb-4"></app-divider>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Borrower Id</mat-label>
+            <input matInput placeholder="Borrower Id (if already loaded onto the system)" formControlName="borrowerId">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Borrower Number</mat-label>
+            <input matInput placeholder="Borrower Number" formControlName="borrowerNumber">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Borrower Type</mat-label>
+            <input matInput placeholder="Borrower Type" formControlName="borrowerType" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>External Reference ID</mat-label>
+            <input matInput placeholder="External Reference ID" formControlName="externalReferenceId">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="First Name" formControlName="firstName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Middle Name</mat-label>
+            <input matInput placeholder="Middle Name" formControlName="middleName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput placeholder="Last Name" formControlName="lastName">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Suffix</mat-label>
+            <input matInput placeholder="Suffix" formControlName="suffix">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Social Security Number</mat-label>
+            <input matInput placeholder="Social Security Number" formControlName="ssn">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Date of Birth</mat-label>
+            <input matInput placeholder="Date of Birth" formControlName="dob">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Score</mat-label>
+            <input matInput placeholder="Score" formControlName="score">
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Custom Data</mat-label>
+            <input matInput placeholder="Custom Data" formControlName="customData">
+          </mat-form-field>
+        </div>
+      </div>
+      <app-divider></app-divider>
+      <h4 class="mt-2">Borrower Flags</h4>
+      <app-divider class="mb-4"></app-divider>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Active Military</mat-label>
+            <input matInput placeholder="Active Military" formControlName="activeMilitary">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Accepted e-Correspondence</mat-label>
+            <input matInput placeholder="Accepted e-Correspondence" formControlName="ecorrAccepted">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field>
+            <mat-label>Active Privacy</mat-label>
+            <input matInput placeholder="Active Privacy" formControlName="activePrivacy">
+          </mat-form-field>
+        </div>
+      </div>
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Borrower Address('s)</h4>
+        </div>
+        <div class="col">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addAddress()">
+            <span class="material-icons info-icon">add_circle</span> Add Address
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container formArrayName="addresses">
+          <div *ngFor="let add of addresses.controls; let i = index" formGroupName="{{ i }}">
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Primary Address" formControlName="isPrimary">
+                  <span class="mat-body-strong text-uppercase">Primary</span>
+                </mat-slide-toggle>
+              </div>
+              <div class="col">&nbsp;</div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Street 1</mat-label>
+                  <input matInput type="text" placeholder="Street 1" formControlName="street1" required />
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Street 2</mat-label>
+                  <input matInput type="text" placeholder="Street 2" formControlName="street2" />
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>City</mat-label>
+                  <input matInput type="text" placeholder="City" formControlName="city" required />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>State</mat-label>
+                  <mat-select formControlName="state" ngDefaultControl>
+                    <mat-option *ngFor="let st of states$ | async" [value]="st.abbreviation" required>
+                      {{ st.abbreviation }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Postal Code</mat-label>
+                  <input matInput type="text" placeholder="Postal Code" formControlName="postalCode" required>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Country</mat-label>
+                  <mat-select formControlName="countryCode" required>
+                    <mat-option *ngFor="let co of countries$ | async" [value]="co.code">
+                      {{ co.code }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Borrower Phone Number('s)</h4>
+        </div>
+        <div class="col">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addPhone()">
+            <span class="material-icons info-icon">add_circle</span> Add Phone
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container formArrayName="phoneNumbers">
+          <div *ngFor="let phone of phoneNumbers.controls; let phIndex = index" formGroupName="{{phIndex}}">
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Cell Phone Consent"
+                  formControlName="hasCellPhoneConsent">
+                  <span class="mat-body-strong text-uppercase">Cell Phone Consent</span>
+                </mat-slide-toggle>
+                <strong>|</strong>
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Primary Phone" formControlName="isPrimary">
+                  <span class="mat-body-strong text-uppercase">Primary</span>
+                </mat-slide-toggle>
+                <mat-form-field class="example-full-width">
+                  <mat-label>Phone Type</mat-label>
+                  <mat-select placeholder="Phone Type" formControlName="type">
+                    <mat-option *ngFor="let type of phoneType" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Mobile Phone" formControlName="isMobile">
+                  <span class="mat-body-strong text-uppercase">Mobile</span>
+                </mat-slide-toggle>
+                <mat-form-field>
+                  <mat-label *ngIf="phIndex === 0">Primary Phone Number</mat-label>
+                  <mat-label *ngIf="phIndex !== 0">Alternate Phone Number</mat-label>
+                  <input matInput placeholder="Phone Number" formControlName="phoneNumber" [showMaskTyped]="true"
+                    prefix="+1" mask="(000) 000-0000" type="text" required />
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Borrower Email Address('s)</h4>
+        </div>
+        <div class="col">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addEmail()">
+            <span class="material-icons info-icon">add_circle</span> Add Email
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <ng-container formArrayName="emailAddresses">
+          <div *ngFor="let email of emailAddresses.controls; let em = index" formGroupName="{{em}}">
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-slide-toggle class="mx-3" color="accent" matTooltip="Primary Email" formControlName="isPrimary">
+                  <span class="mat-body-strong text-uppercase">Primary</span>
+                </mat-slide-toggle>
+                <mat-form-field>
+                  <mat-label>Email Address</mat-label>
+                  <input matInput placeholder="Email Address" formControlName="emailAddress" required />
+                </mat-form-field>
+              </div>
+              <div class="col">
+
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <app-divider class="mb-3"></app-divider>
+      <div class="row">
+        <div class="col">
+          <button mat-stroked-button color="accent" matStepperPrevious class="margin-right-15">Back</button>
+          <button class="mr-2" mat-raised-button color="primary" matStepperNext (click)="grabData()">Next</button>
+        </div>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="loanForm" label="Add Loan">
+    <h4 class="mt-2">Loan Information</h4>
+    <app-divider class="mb-4"></app-divider>
     <form [formGroup]="loanForm">
       <div class="row">
         <div class="col">
@@ -244,6 +549,10 @@
           <mat-form-field>
             <mat-label>Interest Rate</mat-label>
             <input matInput formControlName="interestRate" placeholder="Interest Rate" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Loan Number</mat-label>
+            <input matInput formControlName="loanNumber" placeholder="Loan Number">
           </mat-form-field>
         </div>
         <div class="col">
@@ -258,6 +567,10 @@
           <mat-form-field>
             <mat-label>External Reference Id</mat-label>
             <input matInput formControlName="externalReferenceId" placeholder="External Reference Id" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Custom Data</mat-label>
+            <input matInput formControlName="customData" placeholder="Custom Data">
           </mat-form-field>
         </div>
       </div>
@@ -318,55 +631,78 @@
         </div>
       </div>
       <app-divider class="mb-4"></app-divider>
-        <div [formGroup]="loanPeriodForm">
-          <!-- fixed amount form -->
-          <div class="row" formGroupName="fixedAmount">
-            <div class="col">
-              <span class="mb-4 overline">
-                Fixed Amount
-              </span>
-              <app-divider class="mb-4"></app-divider>
-              <div class="row">
-                <div class="col">
-                  <mat-form-field>
-                    <mat-label>Payment Amount</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="paymentAmount" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>First Payment Date</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Payment Frequency</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Cap Interest At Start</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Start Date</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Reduce Term</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                  </mat-form-field>
-                </div>
-                <div class="col">
-                  <mat-form-field>
-                    <mat-label>Reporting Status</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Loan Status</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                  </mat-form-field>
-                  <mat-form-field>
-                    <mat-label>Tags</mat-label>
-                    <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
-                  </mat-form-field>
-                  <!--  <ng-container formArrayName='fixedAmountTags'>
+      <div class="row">
+        <div class="col">
+          <h4>Choose a Loan Period Type</h4>
+          <div *ngFor="let type of loanPeriodType; let i = index">
+            <mat-checkbox (change)="onChange($event)" [value]="type">{{type}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col">
+          <h4>Informational Note</h4>
+          <ul>
+            <li>Only <strong>one</strong> loan period <strong>type</strong> per item allowed.</li>
+            <li>At least one PrincipalAndInterest or fixedAmount loan period is required.</li>
+            <li>First Disbursement Date should be the same as First Start Date and on or before today.</li>
+          </ul>
+        </div>
+      </div>
+      <app-divider class="mb-4"
+        *ngIf="showFixedAmount || showDeferment || showInterestOnly || showprincipalAndInterest">
+      </app-divider>
+      <div [formGroup]="loanPeriodForm">
+        <!-- fixed amount form -->
+        <div class="row" formGroupName="fixedAmount" *ngIf="showFixedAmount">
+          <div class="col">
+            <span class="mb-4 overline">
+              Fixed Amount
+            </span>
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Payment Amount</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="paymentAmount" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>First Payment Date</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Payment Frequency</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Cap Interest At Start</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Start Date</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Reduce Term</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Reporting Status</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Loan Status</mat-label>
+                  <mat-select placeholder="Loan Status" formControlName="loanStatus">
+                    <mat-option *ngFor="let type of loanStatus" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Tags</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
+                </mat-form-field>
+                <!--  <ng-container formArrayName='fixedAmountTags'>
                     <ng-container *ngFor="let fixed of fixedTags(p).controls; let fix = index">
                       <mat-form-field>
                         <mat-label>Loan Period Tags</mat-label>
@@ -374,178 +710,202 @@
                       </mat-form-field>
                     </ng-container>
                   </ng-container> -->
-                </div>
               </div>
             </div>
           </div>
-
-          <!-- deferment form -->
-          <!-- <div class="row">
-            <div class="col">
-              <span class="mb-4 overline">
-                Deferment
-              </span>
-              <app-divider class="mb-4"></app-divider>
-              <form [formGroup]="deferment">
-                <div class="row">
-                  <div class="col">
-                    <mat-form-field>
-                      <mat-label>Cap Interest At Start</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Start Date</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Reduce Term</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                    </mat-form-field>
-                  </div>
-                  <div class="col">
-                    <span class="mb-4 overline">
-                    </span>
-                    <mat-form-field>
-                      <mat-label>Reporting Status</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Loan Status</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                    </mat-form-field>
-                    <ng-container formArrayName='defermentTags'>
-                      <ng-container *ngFor="let tag of defermentTags.controls; let t = index"></ng-container>
-                      <mat-form-field>
-                        <mat-label>Loan Period Tags</mat-label>
-                        <input matInput placeholder="Loan Period Tags" formControlName="tag" required>
-                      </mat-form-field>
-                    </ng-container>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div> -->
-
-          <!-- interest only -->
-          <!-- <div class="row">
-            <div class="col">
-              <span class="mb-4 overline">
-                Interest Only
-              </span>
-              <app-divider class="mb-4"></app-divider>
-              <form [formGroup]="interestOnly">
-                <div class="row">
-                  <div class="col">
-                    <mat-form-field>
-                      <mat-label>First Payment Date</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Payment Frequency</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Cap Interest At Start</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Start Date</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                    </mat-form-field>
-                  </div>
-                  <div class="col">
-                    <mat-form-field>
-                      <mat-label>Reduce Term</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Reporting Status</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Loan Status</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                    </mat-form-field>
-                    <ng-container formArrayName='interestOnlyTags'>
-                      <ng-container *ngFor="let tag of interestOnlyTags.controls; let t = index"></ng-container>
-                      <mat-form-field>
-                        <mat-label>Loan Period Tags</mat-label>
-                        <input matInput placeholder="Loan Period Tags" formControlName="tag" required>
-                      </mat-form-field>
-                    </ng-container>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div> -->
-
-          <!-- principal and interest
-          <div class="row">
-            <div class="col">
-              <span class="mb-4 overline">
-                Principal and Interest
-              </span>
-              <app-divider class="mb-4"></app-divider>
-              <form [formGroup]="principalAndInterest">
-                <div class="row">
-                  <div class="col">
-                    <mat-form-field>
-                      <mat-label>First Payment Date</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Payment Frequency</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="paymentFrequency" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Cap Interest At Start</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Start Date</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="startDate" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Reduce Term</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
-                    </mat-form-field>
-                  </div>
-                  <div class="col">
-                    <mat-form-field>
-                      <mat-label>Reporting Status</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
-                    </mat-form-field>
-                    <mat-form-field>
-                      <mat-label>Loan Status</mat-label>
-                      <input matInput placeholder="Payment Amount" formControlName="loanStatus" required>
-                    </mat-form-field>
-                    <ng-container formArrayName='principalInterestTags'>
-                      <ng-container *ngFor="let tag of principalInterestTags.controls; let t = index"></ng-container>
-                      <mat-form-field>
-                        <mat-label>Loan Period Tags</mat-label>
-                        <input matInput placeholder="Loan Period Tags" formControlName="tag">
-                      </mat-form-field>
-                    </ng-container>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>-->
         </div>
-
+        <!-- deferment form -->
+        <div class="row" formGroupName="deferment" *ngIf="showDeferment">
+          <div class="col">
+            <span class="mb-4 overline">
+              Deferment
+            </span>
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Cap Interest At Start</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Start Date</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Reduce Term</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Reporting Status</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Loan Status</mat-label>
+                  <mat-select placeholder="Loan Status" formControlName="loanStatus">
+                    <mat-option *ngFor="let type of loanStatus" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Tags</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
+                </mat-form-field>
+                <!--  <ng-container formArrayName='fixedAmountTags'>
+                    <ng-container *ngFor="let fixed of fixedTags(p).controls; let fix = index">
+                      <mat-form-field>
+                        <mat-label>Loan Period Tags</mat-label>
+                        <input matInput placeholder="Payment Amount" formControlName="tags" required>
+                      </mat-form-field>
+                    </ng-container>
+                  </ng-container> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- interest only form -->
+        <div class="row" formGroupName="interestOnly" *ngIf="showInterestOnly">
+          <div class="col">
+            <span class="mb-4 overline">
+              Interest Only
+            </span>
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>First Payment Date</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Payment Frequency</mat-label>
+                  <mat-select placeholder="Payment Frequency" formControlName="paymentFrequency">
+                    <mat-option *ngFor="let type of paymentFrequency" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Cap Interest At Start</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Start Date</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Reduce Term</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Reporting Status</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Loan Status</mat-label>
+                  <mat-select placeholder="Loan Status" formControlName="loanStatus">
+                    <mat-option *ngFor="let type of loanStatus" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Tags</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
+                </mat-form-field>
+                <!--  <ng-container formArrayName='fixedAmountTags'>
+                    <ng-container *ngFor="let fixed of fixedTags(p).controls; let fix = index">
+                      <mat-form-field>
+                        <mat-label>Loan Period Tags</mat-label>
+                        <input matInput placeholder="Payment Amount" formControlName="tags" required>
+                      </mat-form-field>
+                    </ng-container>
+                  </ng-container> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- principle and interest -->
+        <div class="row" formGroupName="principalInterest" *ngIf="showprincipalAndInterest">
+          <div class="col">
+            <span class="mb-4 overline">
+              Principle and Interest
+            </span>
+            <app-divider class="mb-4"></app-divider>
+            <div class="row">
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>First Payment Date</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="firstPaymentDate" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Payment Frequency</mat-label>
+                  <mat-select placeholder="Payment Frequency" formControlName="paymentFrequency">
+                    <mat-option *ngFor="let type of paymentFrequency" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Cap Interest At Start</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="capInterestAtStart" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Start Date</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="startDate" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Reduce Term</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reduceTerm" required>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field>
+                  <mat-label>Reporting Status</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="reportingStatus" required>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Loan Status</mat-label>
+                  <mat-select placeholder="Loan Status" formControlName="loanStatus">
+                    <mat-option *ngFor="let type of loanStatus" [value]="type">
+                      {{ type }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Tags</mat-label>
+                  <input matInput placeholder="Payment Amount" formControlName="loanPeriodTags" required>
+                </mat-form-field>
+                <!--  <ng-container formArrayName='fixedAmountTags'>
+                  <ng-container *ngFor="let fixed of fixedTags(p).controls; let fix = index">
+                    <mat-form-field>
+                      <mat-label>Loan Period Tags</mat-label>
+                      <input matInput placeholder="Payment Amount" formControlName="tags" required>
+                    </mat-form-field>
+                  </ng-container>
+                </ng-container> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- buttons -->
       <app-divider class="mb-4"></app-divider>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-stroked-button color="accent" matStepperPrevious class="margin-right-15">Back</button>
+        <button class="mr-2" mat-raised-button color="primary" matStepperNext (click)="grabData()">Next</button>
       </div>
     </form>
   </mat-step>
+
   <mat-step>
     <ng-template matStepLabel>Done</ng-template>
     <p>You are now done.</p>
     <div>
-      <button mat-button matStepperPrevious>Back</button>
+      <button mat-stroked-button color="accent" matStepperPrevious class="margin-right-15">Back</button>
       <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
   </mat-step>

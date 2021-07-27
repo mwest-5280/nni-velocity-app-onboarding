@@ -1,22 +1,41 @@
-<mat-sidenav mode="side" opened class="side-navigation">
-  <div class="d-flex align-items-center ml-3 mt-4 marg-left-25">
-    <img class="logo-size" src="assets/img/logo.png" alt="nelnet logo" />
-    <h1 class="ml-3">Onboarding</h1>
+<!-- <mat-sidenav mode="side" opened class="side-navigation">
+  <div class="d-flex logo-position">
+    <div>
+      <img class="logo-size" src="assets/img/logo.png" alt="nelnet logo" />
+      <h1 class="ml-3 logo-move"> Onboarding</h1>
+    </div>
+    <ul>
+      <li><a mat-list-item >Consumer</a></li>
+      <li><a mat-list-item href="...">Education</a></li>
+      <li><a mat-list-item href="..." >Income Share</a></li>
+    </ul>
+  </div>
+  <div class="fixed-bottom row row-width-275">
+    <app-divider class="divider-styles"></app-divider>
+    <div class="col">
+      <h2 data-cy="app-header-username" class="mb-0 username-position">{{ username }}</h2>
+    </div>
+    <div class="col-2">
+      <button mat-icon-button matTooltip="Log Out" (click)="logout()" class="username-image">
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </div>
   </div>
 </mat-sidenav>
 <mat-sidenav-content class="side-content">
   <app-consumer></app-consumer>
-</mat-sidenav-content>
-<!-- <ng-template #dashboardDescription>
+</mat-sidenav-content> -->
+<app-header></app-header>
+<ng-template #dashboardDescription>
   <div class="w-100 d-flex">
     <div class="d-flex align-items-center mr-auto">
       <mat-icon class="large-icon-size mx-3" [inline]="true">dashboard</mat-icon>
-      <h2 class="txt-light mb-0">Onboarding Forms for Consumer or Education</h2>
+      <h2 class="txt-light mb-0">{{formName}} Bundle</h2>
     </div>
   </div>
 </ng-template>
 <ng-template #dashboardContent>
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="tabChanged($event)">
     <mat-tab label="Consumer">
       <app-consumer></app-consumer>
     </mat-tab>
@@ -25,4 +44,4 @@
     </mat-tab>
   </mat-tab-group>
 </ng-template>
-<app-collapsible-card [description]="dashboardDescription" [content]="dashboardContent"></app-collapsible-card> -->
+<app-collapsible-card [description]="dashboardDescription" [content]="dashboardContent"></app-collapsible-card>

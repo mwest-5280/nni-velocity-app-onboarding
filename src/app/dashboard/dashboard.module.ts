@@ -8,7 +8,7 @@ import { ConsumerModule } from './consumer';
 import { EducationModule } from './education/education.module';
 import { CollapsibleCardModule } from '../shared/components/collapsible-card/collapsible-card.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
+import { DividerModule } from '../shared/components/divider';
 @NgModule({
     declarations: [DashboardComponent],
     imports: [
@@ -19,7 +19,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
         CollapsibleCardModule,
         ConsumerModule,
         EducationModule,
-        MatSidenavModule
+        MatSidenavModule,
+        DividerModule
     ],
     exports: [DashboardComponent]
 })

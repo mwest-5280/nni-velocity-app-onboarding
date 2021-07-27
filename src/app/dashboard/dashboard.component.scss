@@ -1,36 +1,40 @@
 @import '../../assets/sass/material/theme';
 
 .side-navigation {
-    width: 250px;
-    background: #F0F2F5;
+    width: 275px;
+    background: #f0f2f5;
     color: #404040;
     padding: 19px;
 }
 .side-content {
-    margin-left: 250px;
+    margin-left: 255px;
     padding: 35px;
     background-color: #fff;
 }
 img.logo-size {
-    max-height: 1.25em;
-    max-width: 1.25em;
+    max-width: 2em;
     margin-right: 7px;
-    top: -8px;
     position: relative;
 }
-.marg-left-25 {
-    margin-left: 25px;
+.username-position {
+    padding-top: 1px;
+    float: right;
+    color: #404040;
+    position: relative;
+    left: -29px;
+}
+.username-image {
+    position: relative;
+    top: -11px;
+    left: -54px;
 }
 .background-color {
     background-color: #fff;
 }
-
-.prod-header-bg {
-    background-color: #1f496b;
-    padding: 8px 15px 8px 8px;
-    h1 {
-        margin-left: 0 !important;
-    }
+.logo-position {
+    top: 31px;
+    position: relative;
+    padding-left: 21px;
 }
 
 .color-contrast {
@@ -43,4 +47,36 @@ img.logo-size {
 
 .mat-toolbar h1 {
     @include mat-typography-level-to-styles($ap-typography-config, headline);
+}
+.logo-move {
+    position: relative;
+    top: -24px;
+    padding-left: 35px;
+}
+.row-width-275 {
+    width: 275px;
+}
+.divider-styles {
+    position: relative;
+    top: -22px;
+    border-top-color: #ccc;
+    margin-left: 31px;
+    width: 235px;
+}
+ul {
+    position: relative;
+    left: -207px;
+    top: 200px;
+    text-align: right;
+    font-size: 18px;
+    list-style: none;
+
+    li {
+      padding: 15px;
+      width: 200px;
+
+      button {
+        border: none;
+      }
+    }
 }
