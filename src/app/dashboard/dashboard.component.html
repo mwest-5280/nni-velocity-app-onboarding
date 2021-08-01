@@ -1,13 +1,17 @@
-<!-- <mat-sidenav mode="side" opened class="side-navigation">
+<!-- <span *ngIf=""></span>
+<mat-sidenav mode="side" opened class="side-navigation">
   <div class="d-flex logo-position">
     <div>
       <img class="logo-size" src="assets/img/logo.png" alt="nelnet logo" />
       <h1 class="ml-3 logo-move"> Onboarding</h1>
+      <mat-slide-toggle class="mx-3" color="accent" matTooltip="Switch Layout">
+        <span class="mat-body-strong text-uppercase">Switch Layout</span>
+      </mat-slide-toggle>
     </div>
     <ul>
-      <li><a mat-list-item >Consumer</a></li>
+      <li><a mat-list-item>Consumer</a></li>
       <li><a mat-list-item href="...">Education</a></li>
-      <li><a mat-list-item href="..." >Income Share</a></li>
+      <li><a mat-list-item href="...">Income Share</a></li>
     </ul>
   </div>
   <div class="fixed-bottom row row-width-275">
@@ -36,11 +40,14 @@
 </ng-template>
 <ng-template #dashboardContent>
   <mat-tab-group (selectedTabChange)="tabChanged($event)">
-    <mat-tab label="Consumer">
+    <mat-tab label="Consumer Bundle">
       <app-consumer></app-consumer>
     </mat-tab>
-    <mat-tab label="Education">
+    <mat-tab label="Education Bundle">
       <app-education></app-education>
+    </mat-tab>
+    <mat-tab label="Income Share Bundle">
+      <app-incomeshare></app-incomeshare>
     </mat-tab>
   </mat-tab-group>
 </ng-template>

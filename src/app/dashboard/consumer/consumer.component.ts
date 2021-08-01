@@ -6,13 +6,14 @@ import {
     FormArray,
     FormControl
 } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
     State,
     Country,
     StateCountryEventService
 } from 'src/app/services/state-country-event.service';
-
+import { OnboardingService } from 'src/app/services/onboarding.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 @Component({
     selector: 'app-consumer',
     templateUrl: './consumer.component.html',
@@ -28,13 +29,43 @@ export class ConsumerComponent implements OnInit {
     deferment: FormGroup;
     interestOnly: FormGroup;
     principalInterest: FormGroup;
+    referencesForm: FormGroup;
     showAddressBorder = false;
 
     /* loan rate types */
     rateTypes = ['Fixed', 'Variable'];
 
     /* borrower Type */
-    borrowerType = [];
+    coborrowerType = [];
+    activeOfac: { key: string; value: boolean }[] = [
+        { key: 'Yes', value: true },
+        { key: 'No', value: false }
+    ];
+    activeMilitary: { key: string; value: boolean }[] = [
+        { key: 'Yes', value: true },
+        { key: 'No', value: false }
+    ];
+    ecorrAccepted: { key: string; value: boolean }[] = [
+        { key: 'Yes', value: true },
+        { key: 'No', value: false }
+    ];
+    activePrivacy: { key: string; value: boolean }[] = [
+        { key: 'Yes', value: true },
+        { key: 'No', value: false }
+    ];
+
+    /* bank account types */
+    accountType = ['Checking', 'Savings'];
+    isAutoDebit: { key: string; value: boolean }[] = [
+        { key: 'Yes', value: true },
+        { key: 'No', value: false }
+    ];
+    isActive: { key: string; value: boolean }[] = [
+        { key: 'Yes', value: true },
+        { key: 'No', value: false }
+    ];
+    /* auto debit terms type */
+    adTermsType = ['HTML', 'ID', 'TEXT', 'URL'];
 
     /* phone type */
     phoneType = ['home', 'work', 'other'];
@@ -58,10 +89,12 @@ export class ConsumerComponent implements OnInit {
 
     states$: Observable<State[]> = this.stateCountryService.states$;
     countries$: Observable<Country[]> = this.stateCountryService.usaOnly$;
+    grabLoanProgramBorrowerTypes = new Subject<string>();
 
     constructor(
         private fb: FormBuilder,
-        private stateCountryService: StateCountryEventService
+        private stateCountryService: StateCountryEventService,
+        private onboardingService: OnboardingService
     ) {}
 
     ngOnInit() {
@@ -73,7 +106,7 @@ export class ConsumerComponent implements OnInit {
             callBackURL: ''
         });
         this.borrowerForm = this.fb.group({
-            borrowerId: ['', Validators.required],
+            borrowerId: [''],
             firstName: ['', Validators.required],
             middleName: '',
             lastName: ['', Validators.required],
@@ -91,29 +124,40 @@ export class ConsumerComponent implements OnInit {
             borrowerNumber: '',
             ecorrAccepted: ['', Validators.required],
             walletId: '',
-            borrowerType: ['', Validators.required]
+            borrowerType: [{ value: 'borrower', disabled: true }, Validators.required],
+            bankProfiles: this.fb.array([]),
+            autoDebitType: '',
+            autoDebitContent: '',
+            autoDebitIsActive: '',
+            activeOfac: '',
+            references: this.fb.array([])
         });
         this.coBorrowerForm = this.fb.group({
-          borrowerId: ['', Validators.required],
-          firstName: ['', Validators.required],
-          middleName: '',
-          lastName: ['', Validators.required],
-          suffix: '',
-          ssn: ['', Validators.required],
-          dob: ['', Validators.required],
-          score: [''],
-          addresses: this.fb.array([]),
-          phoneNumbers: this.fb.array([]),
-          emailAddresses: this.fb.array([]),
-          customData: [''],
-          activeMilitary: ['', Validators.required],
-          activePrivacy: ['', Validators.required],
-          externalReferenceId: '',
-          borrowerNumber: '',
-          ecorrAccepted: ['', Validators.required],
-          walletId: '',
-          borrowerType: ['', Validators.required]
-      });
+            borrowerId: [''],
+            firstName: ['', Validators.required],
+            middleName: '',
+            lastName: ['', Validators.required],
+            suffix: '',
+            ssn: ['', Validators.required],
+            dob: ['', Validators.required],
+            score: [''],
+            coAddresses: this.fb.array([]),
+            coPhoneNumbers: this.fb.array([]),
+            coEmailAddresses: this.fb.array([]),
+            customData: [''],
+            activeMilitary: ['', Validators.required],
+            activePrivacy: ['', Validators.required],
+            externalReferenceId: '',
+            borrowerNumber: '',
+            ecorrAccepted: ['', Validators.required],
+            walletId: '',
+            borrowerType: ['', Validators.required],
+            coBankProfiles: this.fb.array([]),
+            autoDebitType: '',
+            autoDebitContent: '',
+            autoDebitIsActive: '',
+            activeOfac: ''
+        });
         this.loanForm = this.fb.group({
             term: ['', Validators.required] /* integer only */,
             interestRate: ['', Validators.required] /* numbers only */,
@@ -174,6 +218,18 @@ export class ConsumerComponent implements OnInit {
         this.addCoBorrowerEmail();
         this.addCoBorrowerAddress();
         this.addCoBorrowerPhone();
+        this.addBankProfiles();
+        this.addCoBankProfiles();
+        this.addReferences();
+
+        // grabs the borrower types from loan program id entered into field
+        this.grabLoanProgramBorrowerTypes
+            .pipe(debounceTime(200), distinctUntilChanged())
+            .subscribe((value) => {
+                this.onboardingService.getCoBorrowerType(value).subscribe((data) => {
+                    this.coborrowerType = data.coborrowerTypes;
+                });
+            });
     }
     onChange(event) {
         const loanPerTypes = (<FormArray>(
@@ -232,11 +288,11 @@ export class ConsumerComponent implements OnInit {
         return this.loanForm.get('disbursements') as FormArray;
     }
 
-    /* add address from form */
+    /* add dispursement from form */
     addD() {
         this.setDisbursementsControls();
     }
-    /* delete addresses */
+    /* delete dispursements */
     removeD(i: number) {
         this.disbursements.removeAt(i);
     }
@@ -252,6 +308,78 @@ export class ConsumerComponent implements OnInit {
         });
         return fixedArray;
     }
+    addReferences() {
+        this.setReferencesForm();
+    }
+    removeReference(i: number) {
+        this.references.removeAt(i);
+    }
+    setReferencesForm() {
+        const refs = this.fb.group({
+            firstName: '',
+            middleName: '',
+            lastName: '',
+            street1: '',
+            street2: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            countryCode: '',
+            phoneNumber: '',
+            emailAddress: ''
+        });
+        (this.borrowerForm.get('references') as FormArray).push(refs);
+    }
+    get references(): FormArray {
+        return this.borrowerForm.get('references') as FormArray;
+    }
+    /* main borrower bank profiles */
+    addBankProfiles() {
+        this.setBankProfiles();
+    }
+    /* delete bankProfile */
+    removeBankProfile(i: number) {
+        this.bankProfiles.removeAt(i);
+    }
+    setBankProfiles() {
+        const profiles = this.fb.group({
+            bankProfileName: [''],
+            routingNumber: ['', Validators.required],
+            accountNumber: ['', Validators.required],
+            accountType: ['', Validators.required],
+            accountHolderFirstName: ['', Validators.required],
+            accountHolderLastName: ['', Validators.required],
+            isAutoDebit: ['', Validators.required]
+        });
+        (this.borrowerForm.get('bankProfiles') as FormArray).push(profiles);
+    }
+    get bankProfiles(): FormArray {
+        return this.borrowerForm.get('bankProfiles') as FormArray;
+    }
+    /* coborrower bank profiles */
+    addCoBankProfiles() {
+        this.setCoBankProfiles();
+    }
+    /* delete bankProfile */
+    removeCoBankProfile(i: number) {
+        this.coBankProfiles.removeAt(i);
+    }
+    setCoBankProfiles() {
+        const profiles = this.fb.group({
+            bankProfileName: [''],
+            routingNumber: ['', Validators.required],
+            accountNumber: ['', Validators.required],
+            accountType: ['', Validators.required],
+            accountHolderFirstName: ['', Validators.required],
+            accountHolderLastName: ['', Validators.required],
+            isAutoDebit: ['', Validators.required]
+        });
+        (this.coBorrowerForm.get('coBankProfiles') as FormArray).push(profiles);
+    }
+    get coBankProfiles(): FormArray {
+        return this.coBorrowerForm.get('coBankProfiles') as FormArray;
+    }
+
     setAddressFields() {
         const add = this.fb.group({
             isPrimary: [''],
@@ -304,12 +432,12 @@ export class ConsumerComponent implements OnInit {
         return this.borrowerForm.get('emailAddresses') as FormArray;
     }
     addEmail() {
-      this.setEmails();
+        this.setEmails();
     }
-     /* delete email */
-     removeEmail(em: number) {
-      this.emailAddresses.removeAt(em);
-  }
+    /* delete email */
+    removeEmail(em: number) {
+        this.emailAddresses.removeAt(em);
+    }
     setEmails() {
         const emails = this.fb.group({
             isPrimary: [''],
@@ -317,12 +445,70 @@ export class ConsumerComponent implements OnInit {
         });
         (this.borrowerForm.get('emailAddresses') as FormArray).push(emails);
     }
+
+    // ----------- co-borrower functions --------------
+    addCoBorrowerEmail() {
+        this.setCoEmails();
+    }
+    setCoEmails() {
+        const emails = this.fb.group({
+            isPrimary: [''],
+            emailAddress: ['']
+        });
+        (this.coBorrowerForm.get('coEmailAddresses') as FormArray).push(emails);
+    }
+    // gets emailAddresses to push data into form array
+    get coEmailAddresses(): FormArray {
+        return this.coBorrowerForm.get('coEmailAddresses') as FormArray;
+    }
+    /* co borrower address things */
+    addCoBorrowerAddress() {
+        this.setCoAddressFields();
+    }
+    setCoAddressFields() {
+        const add = this.fb.group({
+            isPrimary: [''],
+            street1: [''],
+            street2: [''],
+            city: [''],
+            state: [''],
+            postalCode: [''],
+            countryCode: ['']
+        });
+        (this.coBorrowerForm.get('coAddresses') as FormArray).push(add);
+    }
+    // gets addresses to push data into form array
+    get coAddresses(): FormArray {
+        return this.coBorrowerForm.get('coAddresses') as FormArray;
+    }
+
+    addCoBorrowerPhone() {
+        this.setCoPhones();
+    }
+    // sets phones form array
+    setCoPhones() {
+        const phones = this.fb.group({
+            type: [''],
+            phoneNumber: [''],
+            isPrimary: [''],
+            isMobile: [''],
+            hasCellPhoneConsent: ['']
+        });
+        (this.coBorrowerForm.get('coPhoneNumbers') as FormArray).push(phones);
+    }
+    // gets phones to push data into form array
+    get coPhoneNumbers(): FormArray {
+        return this.coBorrowerForm.get('coPhoneNumbers') as FormArray;
+    }
+
+    /* submission */
     grabData() {
         const mergeAll = {
             generalSettings: this.generalSettingsForm.value,
             borrowerForm: this.borrowerForm.value,
             coBorrowerForm: this.coBorrowerForm.value,
-            loanForm: this.loanForm.value
+            loanForm: this.loanForm.value,
+            loanPeriodForm: this.loanPeriodForm.value
         };
         console.log(mergeAll);
     }

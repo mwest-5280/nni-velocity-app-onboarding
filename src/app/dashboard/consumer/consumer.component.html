@@ -8,7 +8,7 @@
         <div class="col">
           <mat-form-field>
             <mat-label>Loan Program ID</mat-label>
-            <input matInput placeholder="Loan Program ID" formControlName="loanProgramId" required>
+            <input matInput placeholder="Loan Program ID" formControlName="loanProgramId" (ngModelChange)='this.grabLoanProgramBorrowerTypes.next($event)' required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Lender ID</mat-label>
@@ -43,6 +43,7 @@
     <form [formGroup]="borrowerForm">
       <ng-template matStepLabel>Add Primary Borrower</ng-template>
       <h4 class="mt-2">Load a borrower already on the system, or add a new borrower</h4>
+      <span class='txt-sm'>*Borrower Id is not needed when loading a <i>new</i> borrower.</span>
       <app-divider class="mb-4"></app-divider>
       <div class="row">
         <div class="col">
@@ -66,15 +67,15 @@
         <div class="col">
           <mat-form-field>
             <mat-label>First Name</mat-label>
-            <input matInput placeholder="First Name" formControlName="firstName">
+            <input matInput placeholder="First Name" formControlName="firstName" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Middle Name</mat-label>
-            <input matInput placeholder="Middle Name" formControlName="middleName">
+            <input matInput placeholder="Middle Name" formControlName="middleName" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Last Name</mat-label>
-            <input matInput placeholder="Last Name" formControlName="lastName">
+            <input matInput placeholder="Last Name" formControlName="lastName" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Suffix</mat-label>
@@ -84,11 +85,11 @@
         <div class="col">
           <mat-form-field>
             <mat-label>Social Security Number</mat-label>
-            <input matInput placeholder="Social Security Number" formControlName="ssn">
+            <input matInput placeholder="Social Security Number" formControlName="ssn" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Date of Birth</mat-label>
-            <input matInput placeholder="Date of Birth" formControlName="dob">
+            <input matInput placeholder="Date of Birth" formControlName="dob" required>
           </mat-form-field>
           <mat-form-field>
             <mat-label>Score</mat-label>
@@ -107,22 +108,47 @@
         <div class="col">
           <mat-form-field>
             <mat-label>Active Military</mat-label>
-            <input matInput placeholder="Active Military" formControlName="activeMilitary">
+            <mat-select placeholder="Active Military" formControlName="activeMilitary" required>
+              <mat-option *ngFor="let bool of activeMilitary" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Active OFAC</mat-label>
+            <mat-select placeholder="Active OFAC" formControlName="activeOfac">
+              <mat-option *ngFor="let bool of activeOfac" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div class="col">
           <mat-form-field>
             <mat-label>Accepted e-Correspondence</mat-label>
-            <input matInput placeholder="Accepted e-Correspondence" formControlName="ecorrAccepted">
+            <mat-select placeholder="Accepted e-Correspondence" formControlName="ecorrAccepted" required>
+              <mat-option *ngFor="let bool of ecorrAccepted" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Wallet Id</mat-label>
+            <input matInput placeholder="Wallet Id" formControlName="walletId">
           </mat-form-field>
         </div>
         <div class="col">
           <mat-form-field>
             <mat-label>Active Privacy</mat-label>
-            <input matInput placeholder="Active Privacy" formControlName="activePrivacy">
+            <mat-select placeholder="Active Privacy" formControlName="activePrivacy" required>
+              <mat-option *ngFor="let bool of activePrivacy" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
+      <!-- borrower addresses -->
       <app-divider></app-divider>
       <div class="row">
         <div class="col">
@@ -197,6 +223,7 @@
           </div>
         </ng-container>
       </div>
+      <!-- borrower phones -->
       <app-divider></app-divider>
       <div class="row">
         <div class="col">
@@ -246,6 +273,7 @@
           </div>
         </ng-container>
       </div>
+      <!-- borrower emails -->
       <app-divider></app-divider>
       <div class="row">
         <div class="col">
@@ -278,6 +306,223 @@
           </div>
         </ng-container>
       </div>
+      <!-- bank profiles -->
+      <app-divider></app-divider>
+      <div formArrayName="bankProfiles">
+        <div *ngFor="let prof of bankProfiles.controls; let profile=index" formGroupName="{{profile}}">
+          <div class="row">
+            <div class="col">
+              <h4 class="mt-2">Borrower Bank Profile('s)</h4>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addBankProfiles()">
+                <span class="material-icons info-icon">add_circle</span> Add Bank Profile
+              </button>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon float-right mt-2" (click)="removeBankProfile(profile)">
+                <span class="material-icons info-icon">add_circle</span> Remove Bank Profile
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <ng-container>
+              <app-divider class="mb-4"></app-divider>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field>
+                    <mat-label>Bank Profile Name</mat-label>
+                    <input matInput placeholder="Bank Profile Name" formControlName="bankProfileName" />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Used for Auto Debit</mat-label>
+                    <mat-select placeholder="Used for Auto Debit" formControlName="isAutoDebit" required>
+                      <mat-option *ngFor="let bool of isAutoDebit" [value]="bool">
+                        {{ bool.key }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Holder First Name</mat-label>
+                    <input matInput placeholder="Account Holder First Name" formControlName="accountHolderFirstName"
+                      required />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Holder Last Name</mat-label>
+                    <input matInput placeholder="Account Holder Last Name" formControlName="accountHolderLastName"
+                      required />
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field>
+                    <mat-label>Routing Number</mat-label>
+                    <input matInput placeholder="Routing Number" formControlName="routingNumber" required />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Number</mat-label>
+                    <input matInput placeholder="Account Number" formControlName="accountNumber" required />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Type</mat-label>
+                    <mat-select placeholder="Account Type" formControlName="accountType" required>
+                      <mat-option *ngFor="let type of accountType" [value]="type">
+                        {{ type }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <!-- auto debit -->
+      <app-divider></app-divider>
+      <div class="row">
+        <div class="col">
+          <h4 class="mt-2">Borrower Auto Debit</h4>
+        </div>
+        <div class="col">
+        </div>
+      </div>
+      <div class="row">
+        <ng-container>
+          <app-divider class="mb-4"></app-divider>
+          <div class="row">
+            <div class="col">
+              <mat-slide-toggle class="mx-3" color="accent" matTooltip="Activate Auto Debit"
+                formControlName="autoDebitIsActive">
+                <span class="mat-body-strong text-uppercase">Activate Auto Debit</span>
+              </mat-slide-toggle>
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Auto Debit Terms</mat-label>
+                <mat-select placeholder="Auto Debit Terms" formControlName="autoDebitType" required>
+                  <mat-option *ngFor="let type of adTermsType" [value]="type">
+                    {{type}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Auto Debit Content</mat-label>
+                <input matInput placeholder="Auto Debit Content" formControlName="autoDebitContent" required />
+              </mat-form-field>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <!-- references -->
+      <app-divider></app-divider>
+      <div formArrayName="references">
+        <div *ngFor="let ref of references.controls; let reference=index" formGroupName="{{reference}}">
+          <div class="row">
+            <div class="col">
+              <h4 class="mt-2">Borrower Reference('s)</h4>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addReferences()">
+                <span class="material-icons info-icon">add_circle</span> Add Reference
+              </button>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon float-right mt-2" (click)="removeReference(reference)">
+                <span class="material-icons info-icon">add_circle</span> Remove Reference
+              </button>
+            </div>
+          </div>
+          <app-divider class="mb-4"></app-divider>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput placeholder="First Name" formControlName="firstName" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Middle Name</mat-label>
+                <input matInput placeholder="Middle Name" formControlName="middleName" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput placeholder="Last Name" formControlName="lastName" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Street 1</mat-label>
+                <input matInput type="text" placeholder="Street 1" formControlName="street1" required />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Street 2</mat-label>
+                <input matInput type="text" placeholder="Street 2" formControlName="street2" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>City</mat-label>
+                <input matInput type="text" placeholder="City" formControlName="city" required />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <mat-label>State</mat-label>
+                <mat-select formControlName="state" ngDefaultControl>
+                  <mat-option *ngFor="let st of states$ | async" [value]="st.abbreviation" required>
+                    {{ st.abbreviation }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Postal Code</mat-label>
+                <input matInput type="text" placeholder="Postal Code" formControlName="postalCode" required>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Country</mat-label>
+                <mat-select formControlName="countryCode" required>
+                  <mat-option *ngFor="let co of countries$ | async" [value]="co.code">
+                    {{ co.code }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Phone Number</mat-label>
+                <input matInput placeholder="Phone Number" formControlName="phoneNumber" />
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field>
+                <mat-label>Email Address</mat-label>
+                <input matInput placeholder="Email Address" formControlName="emailAddress" />
+              </mat-form-field>
+            </div>
+            <div class="col"></div>
+          </div>
+        </div>
+      </div>
+      <!-- buttons -->
       <app-divider class="mb-3"></app-divider>
       <div class="row">
         <div class="col">
@@ -287,25 +532,30 @@
       </div>
     </form>
   </mat-step>
+  <!-- CO-BORROWER STEP -->
   <mat-step [stepControl]="coBorrowerForm">
     <form [formGroup]="coBorrowerForm">
       <ng-template matStepLabel>Add Co-Borrower/Signer <span class="txt-small">*optional step</span> </ng-template>
-      <h4 class="mt-2">Load a co-borrower already on the system, or add a new co-borrower</h4>
-      <h5 class="txt-small">*this step is optional</h5>
+      <h4 class="mt-2">Load a co-borrower/signer already on the system, or add a new co-borrower/signer</h4>
+      <span class="txt-sm">Borrower Id is not needed when loading a <i>new</i> co-borrower/signer. This step is optional</span>
       <app-divider class="mb-4"></app-divider>
       <div class="row">
         <div class="col">
           <mat-form-field>
-            <mat-label>Borrower Id</mat-label>
+            <mat-label>Co-Borrower Id</mat-label>
             <input matInput placeholder="Borrower Id (if already loaded onto the system)" formControlName="borrowerId">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Borrower Number</mat-label>
+            <mat-label>Co-Borrower Number</mat-label>
             <input matInput placeholder="Borrower Number" formControlName="borrowerNumber">
           </mat-form-field>
           <mat-form-field>
-            <mat-label>Borrower Type</mat-label>
-            <input matInput placeholder="Borrower Type" formControlName="borrowerType" required>
+            <mat-label>Co-Borrower Type</mat-label>
+            <mat-select placeholder="Borrower Type" formControlName="borrowerType" required>
+              <mat-option *ngFor="let type of coborrowerType" [value]="type">
+                {{ type }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
           <mat-form-field>
             <mat-label>External Reference ID</mat-label>
@@ -350,42 +600,66 @@
         </div>
       </div>
       <app-divider></app-divider>
-      <h4 class="mt-2">Borrower Flags</h4>
+      <h4 class="mt-2">Co-Borrower Flags</h4>
       <app-divider class="mb-4"></app-divider>
       <div class="row">
         <div class="col">
           <mat-form-field>
             <mat-label>Active Military</mat-label>
-            <input matInput placeholder="Active Military" formControlName="activeMilitary">
+            <mat-select placeholder="Active Military" formControlName="activeMilitary" required>
+              <mat-option *ngFor="let bool of activeMilitary" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Active OFAC</mat-label>
+            <mat-select placeholder="Active OFAC" formControlName="activeOfac">
+              <mat-option *ngFor="let bool of activeOfac" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
         <div class="col">
           <mat-form-field>
             <mat-label>Accepted e-Correspondence</mat-label>
-            <input matInput placeholder="Accepted e-Correspondence" formControlName="ecorrAccepted">
+            <mat-select placeholder="Accepted e-Correspondence" formControlName="ecorrAccepted" required>
+              <mat-option *ngFor="let bool of ecorrAccepted" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Wallet Id</mat-label>
+            <input matInput placeholder="Wallet Id" formControlName="walletId">
           </mat-form-field>
         </div>
         <div class="col">
           <mat-form-field>
             <mat-label>Active Privacy</mat-label>
-            <input matInput placeholder="Active Privacy" formControlName="activePrivacy">
+            <mat-select placeholder="Active Privacy" formControlName="activePrivacy" required>
+              <mat-option *ngFor="let bool of activePrivacy" [value]="bool">
+                {{ bool.key }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
         </div>
       </div>
       <app-divider></app-divider>
       <div class="row">
         <div class="col">
-          <h4 class="mt-2">Borrower Address('s)</h4>
+          <h4 class="mt-2">Co-Borrower Address('s)</h4>
         </div>
         <div class="col">
-          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addAddress()">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addCoBorrowerAddress()">
             <span class="material-icons info-icon">add_circle</span> Add Address
           </button>
         </div>
       </div>
       <div class="row">
-        <ng-container formArrayName="addresses">
-          <div *ngFor="let add of addresses.controls; let i = index" formGroupName="{{ i }}">
+        <ng-container formArrayName="coAddresses">
+          <div *ngFor="let add of coAddresses.controls; let i = index" formGroupName="{{ i }}">
             <app-divider class="mb-4"></app-divider>
             <div class="row">
               <div class="col">
@@ -449,17 +723,17 @@
       <app-divider></app-divider>
       <div class="row">
         <div class="col">
-          <h4 class="mt-2">Borrower Phone Number('s)</h4>
+          <h4 class="mt-2">Co-Borrower Phone Number('s)</h4>
         </div>
         <div class="col">
-          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addPhone()">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addCoBorrowerPhone()">
             <span class="material-icons info-icon">add_circle</span> Add Phone
           </button>
         </div>
       </div>
       <div class="row">
-        <ng-container formArrayName="phoneNumbers">
-          <div *ngFor="let phone of phoneNumbers.controls; let phIndex = index" formGroupName="{{phIndex}}">
+        <ng-container formArrayName="coPhoneNumbers">
+          <div *ngFor="let phone of coPhoneNumbers.controls; let phIndex = index" formGroupName="{{phIndex}}">
             <app-divider class="mb-4"></app-divider>
             <div class="row">
               <div class="col">
@@ -498,17 +772,17 @@
       <app-divider></app-divider>
       <div class="row">
         <div class="col">
-          <h4 class="mt-2">Borrower Email Address('s)</h4>
+          <h4 class="mt-2">Co-Borrower Email Address('s)</h4>
         </div>
         <div class="col">
-          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addEmail()">
+          <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addCoBorrowerEmail()">
             <span class="material-icons info-icon">add_circle</span> Add Email
           </button>
         </div>
       </div>
       <div class="row">
-        <ng-container formArrayName="emailAddresses">
-          <div *ngFor="let email of emailAddresses.controls; let em = index" formGroupName="{{em}}">
+        <ng-container formArrayName="coEmailAddresses">
+          <div *ngFor="let email of coEmailAddresses.controls; let em = index" formGroupName="{{em}}">
             <app-divider class="mb-4"></app-divider>
             <div class="row">
               <div class="col">
@@ -526,6 +800,76 @@
             </div>
           </div>
         </ng-container>
+      </div>
+      <!-- bank profiles -->
+      <app-divider></app-divider>
+      <div formArrayName="coBankProfiles">
+        <div *ngFor="let prof of coBankProfiles.controls; let profile=index" formGroupName="{{profile}}">
+          <div class="row">
+            <div class="col">
+              <h4 class="mt-2">Co-Borrower Bank Profile('s)</h4>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon float-right mt-2" (click)="addCoBankProfiles()">
+                <span class="material-icons info-icon">add_circle</span> Add Bank Profile
+              </button>
+            </div>
+            <div class="col">
+              <button class="no-btn-styles icons add-icon float-right mt-2" (click)="removeCoBankProfile(profile)">
+                <span class="material-icons info-icon">add_circle</span> Remove Bank Profile
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <ng-container>
+              <app-divider class="mb-4"></app-divider>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field>
+                    <mat-label>Bank Profile Name</mat-label>
+                    <input matInput placeholder="Bank Profile Name" formControlName="bankProfileName" />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Used for Auto Debit</mat-label>
+                    <mat-select placeholder="Used for Auto Debit" formControlName="isAutoDebit" required>
+                      <mat-option *ngFor="let bool of isAutoDebit" [value]="bool">
+                        {{ bool.key }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Holder First Name</mat-label>
+                    <input matInput placeholder="Account Holder First Name" formControlName="accountHolderFirstName"
+                      required />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Holder Last Name</mat-label>
+                    <input matInput placeholder="Account Holder Last Name" formControlName="accountHolderLastName"
+                      required />
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field>
+                    <mat-label>Routing Number</mat-label>
+                    <input matInput placeholder="Routing Number" formControlName="routingNumber" required />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Number</mat-label>
+                    <input matInput placeholder="Account Number" formControlName="accountNumber" required />
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>Account Type</mat-label>
+                    <mat-select placeholder="Account Type" formControlName="accountType" required>
+                      <mat-option *ngFor="let type of accountType" [value]="type">
+                        {{ type }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
       </div>
       <app-divider class="mb-3"></app-divider>
       <div class="row">
@@ -622,15 +966,18 @@
           </div>
         </div>
       </div>
-      <app-divider></app-divider>
-
-      <!-- loan periods start -->
-      <div class="row">
-        <div class="col">
-          <h4 class="mt-2">Loan Periods</h4>
-        </div>
-      </div>
+      <!-- buttons -->
       <app-divider class="mb-4"></app-divider>
+      <div>
+        <button mat-stroked-button color="accent" matStepperPrevious class="margin-right-15">Back</button>
+        <button class="mr-2" mat-raised-button color="primary" matStepperNext (click)="grabData()">Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="loanPeriodForm" label="Add Loan Period">
+    <h4 class="mt-2">Loan Period Information</h4>
+    <app-divider class="mb-4"></app-divider>
+    <form [formGroup]="loanPeriodForm">
       <div class="row">
         <div class="col">
           <h4>Choose a Loan Period Type</h4>
@@ -644,6 +991,7 @@
             <li>Only <strong>one</strong> loan period <strong>type</strong> per item allowed.</li>
             <li>At least one PrincipalAndInterest or fixedAmount loan period is required.</li>
             <li>First Disbursement Date should be the same as First Start Date and on or before today.</li>
+            <li>At least one PrincipalAndInterest when <strong>multiple</strong> loan periods are defined.</li>
           </ul>
         </div>
       </div>

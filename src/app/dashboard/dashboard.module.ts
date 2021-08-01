@@ -7,8 +7,9 @@ import { MaterialModule } from '../shared';
 import { ConsumerModule } from './consumer';
 import { EducationModule } from './education/education.module';
 import { CollapsibleCardModule } from '../shared/components/collapsible-card/collapsible-card.module';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { DividerModule } from '../shared/components/divider';
+import { IncomeshareModule } from './incomeshare/incomeshare.module';
 @NgModule({
     declarations: [DashboardComponent],
     imports: [
@@ -20,7 +21,8 @@ import { DividerModule } from '../shared/components/divider';
         ConsumerModule,
         EducationModule,
         MatSidenavModule,
-        DividerModule
+        DividerModule,
+        IncomeshareModule
     ],
     exports: [DashboardComponent]
 })
