@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
 
     tabChanged(tabChangeEvent?: MatTabChangeEvent): void {
         if (tabChangeEvent === undefined) {
-            this.formName = 'Consumer';
+            this.formName = 'Consumer Bundle';
         } else {
             this.formName = tabChangeEvent.tab.textLabel;
         }

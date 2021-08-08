@@ -156,7 +156,8 @@ export class ConsumerComponent implements OnInit {
             autoDebitType: '',
             autoDebitContent: '',
             autoDebitIsActive: '',
-            activeOfac: ''
+            activeOfac: '',
+            coReferences: this.fb.array([])
         });
         this.loanForm = this.fb.group({
             term: ['', Validators.required] /* integer only */,
@@ -221,6 +222,7 @@ export class ConsumerComponent implements OnInit {
         this.addBankProfiles();
         this.addCoBankProfiles();
         this.addReferences();
+        this.addCoReferences();
 
         // grabs the borrower types from loan program id entered into field
         this.grabLoanProgramBorrowerTypes
@@ -332,6 +334,32 @@ export class ConsumerComponent implements OnInit {
     }
     get references(): FormArray {
         return this.borrowerForm.get('references') as FormArray;
+    }
+    /* co-borrower references */
+    addCoReferences() {
+        this.setCoReferencesForm();
+    }
+    removeCoReference(i: number) {
+        this.coReferences.removeAt(i);
+    }
+    setCoReferencesForm() {
+        const refs = this.fb.group({
+            firstName: '',
+            middleName: '',
+            lastName: '',
+            street1: '',
+            street2: '',
+            city: '',
+            state: '',
+            postalCode: '',
+            countryCode: '',
+            phoneNumber: '',
+            emailAddress: ''
+        });
+        (this.coBorrowerForm.get('coReferences') as FormArray).push(refs);
+    }
+    get coReferences(): FormArray {
+        return this.coBorrowerForm.get('coReferences') as FormArray;
     }
     /* main borrower bank profiles */
     addBankProfiles() {
