@@ -462,7 +462,7 @@
             <div class="col">
               <mat-form-field>
                 <mat-label>Street 1</mat-label>
-                <input matInput type="text" placeholder="Street 1" formControlName="street1" required />
+                <input matInput type="text" placeholder="Street 1" formControlName="street1" />
               </mat-form-field>
             </div>
             <div class="col">
@@ -474,7 +474,7 @@
             <div class="col">
               <mat-form-field>
                 <mat-label>City</mat-label>
-                <input matInput type="text" placeholder="City" formControlName="city" required />
+                <input matInput type="text" placeholder="City" formControlName="city" />
               </mat-form-field>
             </div>
           </div>
@@ -483,7 +483,7 @@
               <mat-form-field>
                 <mat-label>State</mat-label>
                 <mat-select formControlName="state" ngDefaultControl>
-                  <mat-option *ngFor="let st of states$ | async" [value]="st.abbreviation" required>
+                  <mat-option *ngFor="let st of states$ | async" [value]="st.abbreviation">
                     {{ st.abbreviation }}
                   </mat-option>
                 </mat-select>
@@ -492,13 +492,13 @@
             <div class="col">
               <mat-form-field>
                 <mat-label>Postal Code</mat-label>
-                <input matInput type="text" placeholder="Postal Code" formControlName="postalCode" required>
+                <input matInput type="text" placeholder="Postal Code" formControlName="postalCode">
               </mat-form-field>
             </div>
             <div class="col">
               <mat-form-field>
                 <mat-label>Country</mat-label>
-                <mat-select formControlName="countryCode" required>
+                <mat-select formControlName="countryCode">
                   <mat-option *ngFor="let co of countries$ | async" [value]="co.code">
                     {{ co.code }}
                   </mat-option>

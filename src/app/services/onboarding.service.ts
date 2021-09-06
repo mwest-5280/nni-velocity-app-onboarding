@@ -15,12 +15,9 @@ export class OnboardingService {
 
     getCoBorrowerType(loanProgramId: string) {
         return this.http
-            .get<any>(
-                `${this.loanProgramUrl}/${loanProgramId}`,
-                {
-                    observe: 'response'
-                }
-            )
+            .get<any>(`${this.loanProgramUrl}/${loanProgramId}`, {
+                observe: 'response'
+            })
             .pipe(
                 map((response: any) => {
                     return response.body.data;
