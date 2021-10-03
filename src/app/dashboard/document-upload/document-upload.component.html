@@ -1,0 +1,33 @@
+<h3 class="mt-2">Investor Transfer</h3>
+<mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
+<div class="my-3 hidden">
+  <hr class="hr-style" *ngIf="!loading">
+  <div class="row">
+    <div class="col">
+      <!-- bulk upload area -->
+      <div class="row padding-bottom-24">
+        <div class="col">
+          <div *ngIf="!showName">
+            <label for="file-upload" class="custom-file-upload">
+              <mat-icon class="primary">file_upload</mat-icon> Select File
+            </label>
+            <input id="file-upload" type="file" #uploads (change)="selectFiles(uploads.files)" accept=".csv, .xlsx" />
+          </div>
+          <div class="row" *ngIf="showName">
+            <div class="col">
+              <span class="material-icons">insert_drive_file</span><span class="file-name">{{ nameOfFile }}</span>
+            </div>
+            <div class="col">
+              <button mat-stroked-button color="accent" class="outline-for-btn" (click)="clearInput()">Remove</button>
+            </div>
+          </div>
+          <div class="marg-top-10">
+            <button mat-raised-button color="primary" [disabled]="!selectedFiles" (click)="uploadFiles()"
+              class="marg-bot-15"> Schedule Transfer
+            </button>
+          </div>
+        </div>
+        <div class="alert alert-light" role="alert">{{ message }}</div>
+      </div>
+    </div>
+</div>

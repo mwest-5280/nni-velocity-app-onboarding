@@ -10,6 +10,7 @@ import { CollapsibleCardModule } from '../shared/components/collapsible-card/col
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { DividerModule } from '../shared/components/divider';
 import { IncomeshareModule } from './incomeshare/incomeshare.module';
+import { DocumentUploadModule } from './document-upload/document-upload.module';
 @NgModule({
     declarations: [DashboardComponent],
     imports: [
@@ -22,7 +23,8 @@ import { IncomeshareModule } from './incomeshare/incomeshare.module';
         EducationModule,
         MatSidenavModule,
         DividerModule,
-        IncomeshareModule
+        IncomeshareModule,
+        DocumentUploadModule
     ],
     exports: [DashboardComponent]
 })
