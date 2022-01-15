@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../assets/sass/material/theme';
 
 .side-navigation {
@@ -46,7 +47,7 @@ img.logo-size {
 }
 
 .mat-toolbar h1 {
-    @include mat-typography-level-to-styles($ap-typography-config, headline);
+    @include mat.typography-level($ap-typography-config, headline);
 }
 .logo-move {
     position: relative;

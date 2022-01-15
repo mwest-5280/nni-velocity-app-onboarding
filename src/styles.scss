@@ -1,12 +1,13 @@
+@use '~@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700');
 @import 'assets/sass/bootstrap/custom-bootstrap';
 @import 'assets/sass/material/theme';
 @import 'assets/sass/mixins';
 
-@include mat-core($ap-typography-config);
+@include mat.core($ap-typography-config);
 
-@include angular-material-theme($ap-theme);
-@include mat-button-theme($ap-button-theme);
+@include mat.all-component-themes($ap-theme);
+@include mat.button-theme($ap-button-theme);
 
 // Import the theme overrides only after the theme has been initialized as above.
 @import 'assets/sass/material/theme-overrides';
@@ -169,7 +170,7 @@ h3 {
 
 // _buttons.scss
 .btnLink {
-  color: mat-color($ap-primary-color, link);
+  color: mat.get-color-from-palette($ap-primary-color, link);
   font-weight: 400;
 }
 

@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import 'theme';
 @import 'colors';
 
@@ -54,8 +54,8 @@ button:focus {
 
 td.mat-cell,
 th.mat-header-cell {
-  font-size: mat-font-size($ap-typography-config, body-1);
-  line-height: mat-line-height($ap-typography-config, body-1);
+  font-size: mat.font-size($ap-typography-config, body-1);
+  line-height: mat.line-height($ap-typography-config, body-1);
 }
 
 .mat-caption,
@@ -69,10 +69,10 @@ h5,
 .mat-h6,
 h6 {
   @include mat-typography-font-shorthand(
-    mat-font-size($ap-typography-config, subheading-1),
-    mat-font-weight($ap-typography-config, subheading-1),
-    mat-line-height($ap-typography-config, subheading-1),
-    mat-font-family($ap-typography-config, subheading-1)
+    mat.font-size($ap-typography-config, subheading-1),
+    mat.font-weight($ap-typography-config, subheading-1),
+    mat.line-height($ap-typography-config, subheading-1),
+    mat.font-family($ap-typography-config, subheading-1)
   );
 
   font-style: italic;
@@ -93,7 +93,7 @@ h6 {
   $primary: map-get($ap-theme, primary);
 
   $label-color: rgba(0, 0, 0, 0.85);
-  $focused-label-color: mat-color($primary);
+  $focused-label-color: mat.get-color-from-palette($primary);
   $focused-background-color: $lighter-blue;
   $background-color: rgba(0, 0, 0, 0.1);
 
@@ -101,7 +101,7 @@ h6 {
 
   .mat-input-element,
   .mat-select {
-    font-weight: mat-font-weight($ap-typography-config, body-2);
+    font-weight: mat.font-weight($ap-typography-config, body-2);
     color: $label-color;
   }
 
@@ -111,7 +111,7 @@ h6 {
 
   .mat-form-field-label,
   .mat-hint {
-    font-size: mat-font-size($ap-typography-config, caption);
+    font-size: mat.font-size($ap-typography-config, caption);
     color: $label-color;
   }
 

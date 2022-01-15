@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../assets/sass/material/theme';
 
 .header-height {
@@ -32,5 +33,5 @@ img.logo-size {
 }
 
 .mat-toolbar h1 {
-  @include mat-typography-level-to-styles($ap-typography-config, headline);
+  @include mat.typography-level($ap-typography-config, headline);
 }

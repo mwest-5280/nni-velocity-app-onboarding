@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import 'colors';
 
 // Agent Portal Typography
@@ -7,17 +7,17 @@
 //   h2 -> title
 //   h3 -> subheading-2
 //   h4 -> subheading-1
-$ap-typography-config: mat-typography-config(
+$ap-typography-config: mat.define-typography-config(
   $font-family: 'Open Sans, sans-serif',
-  $headline: mat-typography-level(1.25rem, 1.15rem, 700),
-  $title: mat-typography-level(1rem, 1.15rem, 400),
-  $subheading-2: mat-typography-level(1.125rem, 1.15rem, 700),
-  $subheading-1: mat-typography-level(0.875rem, 1.33rem, 700),
-  $body-2: mat-typography-level(0.875rem, 1.5rem, 700),
-  $body-1: mat-typography-level(0.875rem, 1.5rem, 400),
-  $caption: mat-typography-level(0.75rem, 1.66rem, 400),
+  $headline: mat.define-typography-level(1.25rem, 1.15rem, 700),
+  $title: mat.define-typography-level(1rem, 1.15rem, 400),
+  $subheading-2: mat.define-typography-level(1.125rem, 1.15rem, 700),
+  $subheading-1: mat.define-typography-level(0.875rem, 1.33rem, 700),
+  $body-2: mat.define-typography-level(0.875rem, 1.5rem, 700),
+  $body-1: mat.define-typography-level(0.875rem, 1.5rem, 400),
+  $caption: mat.define-typography-level(0.75rem, 1.66rem, 400),
   $button:
-    mat-typography-level(
+    mat.define-typography-level(
       $font-size: 14px,
       $font-weight: 700,
       $letter-spacing: 0px
@@ -25,15 +25,15 @@ $ap-typography-config: mat-typography-config(
 );
 
 // Agent Portal Palettes
-$ap-primary-palette: mat-palette($ap-primary-color);
-$ap-accent-palette: mat-palette($ap-accent-color);
-$ap-warn-palette: mat-palette($ap-warn-color);
+$ap-primary-palette: mat.define-palette($ap-primary-color);
+$ap-accent-palette: mat.define-palette($ap-accent-color);
+$ap-warn-palette: mat.define-palette($ap-warn-color);
 
 // Agent Portal Themes
-$ap-theme: mat-light-theme($ap-primary-palette, $ap-accent-palette, $ap-warn-palette);
+$ap-theme: mat.define-light-theme($ap-primary-palette, $ap-accent-palette, $ap-warn-palette);
 
 // reverse the palette for the site buttons
-$ap-button-theme: mat-light-theme($ap-accent-palette, $ap-primary-palette);
+$ap-button-theme: mat.define-light-theme($ap-accent-palette, $ap-primary-palette);
 
 // Specifications not present within the Material theme
 
@@ -71,7 +71,7 @@ $ap-button-theme: mat-light-theme($ap-accent-palette, $ap-primary-palette);
 
 .info-icon {
   font-size: 16px;
-  color: mat-color($ap-primary-color, 500);
+  color: mat.get-color-from-palette($ap-primary-color, 500);
 }
 
 a {

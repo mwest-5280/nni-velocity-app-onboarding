@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 
 $mdc-theme-primary: #1f496b;
 $mdc-theme-on-primary: rgba(0, 0, 0, 0.87);
@@ -116,9 +116,9 @@ $ap-warn-color: (
 $white: #fff;
 $gray: #9b9b9b;
 $light-gray: #f3f3f3;
-$primary: mat-color($ap-primary-color, 500);
-$accent: mat-color($ap-accent-color, 500);
-$primary-link-color: mat-color($ap-primary-color, link);
+$primary: mat.get-color-from-palette($ap-primary-color, 500);
+$accent: mat.get-color-from-palette($ap-accent-color, 500);
+$primary-link-color: mat.get-color-from-palette($ap-primary-color, link);
 
 // for the background of selected toggle buttons
 $lightest-blue: rgb(232, 239, 244);
