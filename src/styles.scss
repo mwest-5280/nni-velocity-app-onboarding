@@ -1,13 +1,12 @@
-@use '~@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700');
 @import 'assets/sass/bootstrap/custom-bootstrap';
 @import 'assets/sass/material/theme';
 @import 'assets/sass/mixins';
 
-@include mat.core($ap-typography-config);
+@include mat-core($ap-typography-config);
 
-@include mat.all-component-themes($ap-theme);
-@include mat.button-theme($ap-button-theme);
+@include angular-material-theme($ap-theme);
+@include mat-button-theme($ap-button-theme);
 
 // Import the theme overrides only after the theme has been initialized as above.
 @import 'assets/sass/material/theme-overrides';
@@ -16,7 +15,6 @@
 html,
 body {
   height: 100%;
-  overflow: hidden;
 }
 
 body {
@@ -30,64 +28,18 @@ body {
   margin: 0;
   padding: 0;
 }
-// paddings
-.pad-top-5 {
-  padding-top: 5px;
-}
 
-.top-pad-15 {
-  top: 15px;
-  position: relative;
-  z-index: 999;
-}
-
-.pad-bot-15 {
-  padding-bottom: 8px;
-  clear: both;
-}
-
-.pad-bot-zero {
-  padding-bottom: 0;
-}
-
-.pad-bot-10 {
-  padding-bottom: 10px;
-  margin-top: 18px;
-}
-
-// margins
-.marg-top-15px {
-  margin-top: 15px;
-}
-.margin-right-10 {
-  margin-right: 10px;
-}
-.margin-bottom-15 {
-  margin-bottom: 15px;
-}
-.marg-bot-5 {
-  margin-bottom: 5px;
-}
-
-.h-770 {
-  height: 770px;
-  overflow: auto;
+.db {
+  display: block;
 }
 
 // _utilities.scss
-.w-50 {
-  width: 50%;
-}
 .w-80 {
   width: 80%;
 }
 
 .w-83 {
   width: 83%;
-}
-
-.w-91 {
-  width: 91%;
 }
 
 .fs-1 {
@@ -134,21 +86,25 @@ body {
   color: #333 !important;
 }
 
+// Link styles
 // TODO: Consider applying this style globally to the anchor tag
 .txt-link {
   color: $primary-link-color !important;
-  cursor: pointer;
 }
-a.txt-link:hover {
-  text-decoration: underline !important;
+
+mat-nav-list.mat-nav-list.primary-links .mat-list-item {
+  font-size: inherit;
+  height: inherit;
+  color: $primary-link-color;
 }
+// End link styles
 
 .txt-small {
   font-size: 0.75rem;
 }
 
 .txt-med {
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.85rem;
 }
 
 .txt-large {
@@ -164,22 +120,13 @@ a.txt-link:hover {
 }
 
 h2,
-h3 {
+h3,
+h4 {
   color: $primary;
 }
 
-// _buttons.scss
-.btnLink {
-  color: mat.get-color-from-palette($ap-primary-color, link);
-  font-weight: 400;
-}
-
-// hr styles
-.hr-style {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-  border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
+.full-width {
+  width: 100%;
 }
 
 // _lists.scss
@@ -195,48 +142,15 @@ h3 {
   }
 }
 
-.widget-header {
-  color: $white !important;
-  background-color: $primary !important;
-}
-
 // _dialog.scss
 .mat-dialog-container {
-  min-width: 800px;
-  max-width: 800px;
-}
-
-// used for larger container pop ups
-.mat-dialog-container-large {
-  mat-dialog-container {
-    min-width: 1200px !important;
-    max-width: 1200px !important;
-    padding: 10 !important;
-    overflow: hidden;
-  }
-}
-
-// fixed height for modals at 900px
-.mat-dialog-container-fixed-900 {
-  mat-dialog-container {
-    max-height: 900px !important;
-    padding: 10 !important;
-    overflow: auto;
-  }
-}
-
-// used for small container pop ups
-.mat-dialog-container-small {
-  mat-dialog-container {
-    min-width: 600px !important;
-    max-width: 600px !important;
-    padding: 0 !important;
-    overflow: hidden;
-  }
+  min-width: 500px !important;
 }
 
 // _tables.scss
 table {
+  // FIXME: If we want these mat-row, mat-cell, etc overrides to Angular Material, they should be moved
+  //  into our theme overrides rather than here.
   .mat-row {
     height: auto;
   }
@@ -259,46 +173,6 @@ table {
   }
 }
 
-table.dataTable.dtr-column > tbody > tr > td.control:before,
-table.dataTable.dtr-column > tbody > tr > th.control:before,
-table.dataTable.dtr-column > tbody > tr.parent td.control:before,
-table.dataTable.dtr-column > tbody > tr.parent th.control:before {
-  display: none !important;
-}
-
-table.dataTable.dtr-column > tbody > tr > td.control:after,
-table.dataTable.dtr-column > tbody > tr > th.control:after {
-  content: '+';
-  font-size: 3rem;
-  font-weight: 300;
-}
-
-table.dataTable.dtr-column > tbody > tr.parent td.control:after,
-table.dataTable.dtr-column > tbody > tr.parent th.control:after {
-  content: '-';
-  font-size: 3rem;
-  font-weight: 300;
-}
-
-.table-sub-data {
-  height: 3.33rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type='number'] {
-  -moz-appearance: textfield;
-}
-
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
@@ -306,114 +180,12 @@ select:-webkit-autofill {
   color: white !important;
 }
 
-div.dataTables_wrapper div.dataTables_filter {
-  text-align: right;
-}
-
-div.dataTables_wrapper div.dataTables_filter input {
-  margin-left: 0.5em;
-}
-
-div.dataTables_wrapper div.dataTables_info {
-  padding-top: 10px;
-  white-space: nowrap;
-}
-
-div.dataTables_wrapper div.dataTables_processing {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200px;
-  margin-left: -100px;
-  text-align: center;
-}
-
-div.dataTables_wrapper div.dataTables_paginate {
-  text-align: right;
-}
-
-div.dataTables_wrapper div.mdl-grid.dt-table {
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-div.dataTables_wrapper div.mdl-grid.dt-table > div.mdl-cell {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-table.dataTable thead > tr > th.sorting_asc,
-table.dataTable thead > tr > th.sorting_desc,
-table.dataTable thead > tr > th.sorting,
-table.dataTable thead > tr > td.sorting_asc,
-table.dataTable thead > tr > td.sorting_desc,
-table.dataTable thead > tr > td.sorting {
-  padding-right: 30px;
-}
-
-table.dataTable thead > tr > th:active,
-table.dataTable thead > tr > td:active {
-  outline: none;
-}
-
-table.dataTable thead .sorting,
-table.dataTable thead .sorting_asc,
-table.dataTable thead .sorting_desc,
-table.dataTable thead .sorting_asc_disabled,
-table.dataTable thead .sorting_desc_disabled {
-  cursor: pointer;
-  position: relative;
-}
-
-table.dataTable thead .sorting:before,
-table.dataTable thead .sorting:after,
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_desc:before,
-table.dataTable thead .sorting_desc:after,
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_asc_disabled:after,
-table.dataTable thead .sorting_desc_disabled:before,
-table.dataTable thead .sorting_desc_disabled:after {
-  position: absolute;
-  bottom: 11px;
-  display: block;
-  opacity: 0.3;
-  font-size: 1.3em;
-}
-
-table.dataTable thead .sorting:before,
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_desc:before,
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_desc_disabled:before {
-  right: 1em;
-  content: '\2191';
-}
-
-table.dataTable thead .sorting:after,
-table.dataTable thead .sorting_asc:after,
-table.dataTable thead .sorting_desc:after,
-table.dataTable thead .sorting_asc_disabled:after,
-table.dataTable thead .sorting_desc_disabled:after {
-  right: 0.5em;
-  content: '\2193';
-}
-
-table.dataTable thead .sorting_asc:before,
-table.dataTable thead .sorting_desc:after {
-  opacity: 1;
-}
-
-table.dataTable thead .sorting_asc_disabled:before,
-table.dataTable thead .sorting_desc_disabled:after {
-  opacity: 0;
-}
-
 // _forms.scss
 
 .mat-datepicker-toggle {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  top: -6px;
+  position: relative;
 }
 
 // _code.scss
@@ -459,6 +231,10 @@ pre {
   right: 1rem;
 }
 
+input[type='number'].hide-number-control {
+  @include hide-number-control;
+}
+
 // _search.scss
 .text-align-right {
   text-align: right;
@@ -484,6 +260,13 @@ pre {
 
 div.mat-tab-body-content {
   overflow: hidden;
+}
+
+// deeply nested tab content needs x-axis scroll for smaller viewports
+app-processor-dashboard-card div.mat-tab-body-content {
+  overflow-y: hidden;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 .intl-tel-input .flag-container {
@@ -516,6 +299,10 @@ div.transparent-dialog {
   background-color: rgba(150, 150, 150, 0.8);
 }
 
+.transparent-paginator-backdrop {
+  background: transparent;
+}
+
 .mat-icon.mat-icon-inline.large-icon-size {
   font-size: 1.5rem;
 }
@@ -539,17 +326,68 @@ div.transparent-dialog {
   top: -20px;
 }
 
-.bottom-line {
-  border-bottom: solid 1px #eee;
-  float: left;
-  width: 100%;
-  margin-bottom: 8px;
+/*
+ * MatTable styles for a table with expandable rows.
+ *
+ * Apply the .mat-expandable-row class to expandable matRowDef
+ * When expanded, add the .mat-expanded-row class
+ *
+ * The matRowDef for the expanded row should have a .mat-expanded-detail-row
+ * class on it. The matColumnDef for the expanded detail row should have
+ * a div within its td element with the Angular Animation trigger binding
+ * upon it (e.g., [@detailExpand]).
+ *
+ * Recommendation: Search for uses of the above to see implementation details
+ *  in use.
+ *
+ * @see https://material.angular.io/components/table/examples
+ */
+table.mat-table {
+  tr.mat-expandable-row {
+    &:not(.mat-expanded-row):hover {
+      background: #f5f5f5;
+    }
+
+    &:not(.mat-expanded-row):active {
+      background: #efefef;
+    }
+
+    td {
+      border-bottom-width: 0;
+    }
+  }
+
+  tr.mat-expanded-detail-row {
+    height: 0;
+
+    > td {
+      padding: 0 !important;
+
+      > div {
+        overflow: hidden;
+      }
+    }
+  }
+}
+
+/*
+ * Apply the .left-aligned-sort-columns class to a mat-table table which
+ * is utilizing sort columns IF you want to override the default center
+ * text alignment to be left aligned.
+ */
+table.mat-table.left-aligned-sort-columns .mat-sort-header-content {
+  text-align: left;
 }
 
 .data-list-item {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+
+  // stylelint-disable-next-line no-descending-specificity
+  > div:first-of-type {
+    // Provide a buffer when the label or data is quite long and starts bumping into one another.
+    margin-right: 0.5rem;
+  }
 
   // stylelint-disable-next-line no-descending-specificity
   > div:last-of-type {
@@ -559,43 +397,241 @@ div.transparent-dialog {
   &.item-col {
     flex-direction: column;
 
+    /*
+     * --grey is deprecated as 'gray' is the preferred spelling
+     * within our theme color variables.
+     */
+    &--gray,
     &--grey {
       flex-direction: column;
 
-      div:first-of-type {
+      > div:first-of-type {
         font-size: 0.75rem;
         color: $gray;
         margin-bottom: -0.4rem;
       }
     }
+
+    &--description {
+      flex-direction: column;
+
+      > div:first-of-type {
+        font-weight: 700;
+      }
+
+      > div:last-of-type {
+        font-weight: 400;
+      }
+    }
+  }
+
+  &.highlight-item {
+    background: #e3f5fc;
   }
 }
+
+.data-list-items-container {
+  h4 {
+    margin-bottom: unset;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  > app-divider {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+
+    &:last-of-type {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.compare-data-list-items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background: $light-gray;
+  padding: 0.5rem;
+
+  // @deprecated, use subsequent mat-icon style
+  > mat-icon.mat-icon {
+    color: $primary-link-color;
+    font-size: 3em;
+    align-self: flex-start;
+  }
+
+  > span {
+    font-size: 2.75em;
+
+    & > mat-icon.mat-icon-inline {
+      color: $primary-link-color;
+    }
+  }
+
+  > .data-list-item:last-of-type div:last-of-type {
+    text-align: right;
+  }
+
+  > mat-form-field {
+    width: unset;
+  }
+}
+
 .click-to-select {
   user-select: all;
 }
-// for text inside modal 'cancel' button
-button span.cancel {
-  top: -10px;
-  position: relative;
-}
-/* Please Note: must not be wrapped within a mat-toolbar */
-mat-button-toggle-group.wrapping-button-toggle-group {
-  width: 100%;
-  height: auto;
-  overflow: auto;
-  outline: none;
-  overflow-y: hidden;
-  justify-content: center;
 
-  @media only screen and (max-width: 1600px) {
-    justify-content: right;
+// For mat-select options which have extra long text
+.mat-select-panel mat-option.dense {
+  word-break: normal;
+  white-space: pre-line;
+  height: inherit;
+}
+
+/*
+ * Remove most of the mat-form-field validation message
+ * gutters and re-add when the field is invalid in order
+ * to show mat-error elements.
+ *
+ * Recommendation: Apply to form elements as desired.
+ *  Otherwise apply to individual mat-form-field elements.
+ */
+.no-validation-gutters mat-form-field,
+mat-form-field.no-validation-gutters {
+  margin-bottom: -0.7em;
+
+  &.mat-form-field-invalid {
+    margin-bottom: 0.5em;
   }
 }
-.no-btn-styles {
-  border: none !important;
-  background: none !important;
-  cursor: pointer;
+
+/*
+ * Override the top and bottom margin utilities currently applied to the mat-card
+ * within our message components to set unset those values.
+ *
+ * TODO: The message styles should be updated to define margin at the top-level
+ *  component level so this can be easily overridden outside of these global styles.
+ */
+app-simple-message.no-message-gutters .mat-card,
+app-message.no-message-gutters .mat-card {
+  margin-top: unset !important;
+  margin-bottom: unset !important;
 }
-.uppercase {
-  text-transform: uppercase;
+
+app-death,
+app-disability,
+app-fraud,
+app-charge-off,
+app-change-due-date {
+  span[mattooltip='Close'] {
+    float: right;
+  }
+
+  h3 {
+    margin: 0;
+
+    &::after {
+      display: block;
+      clear: both;
+      content: '';
+    }
+  }
+}
+
+mat-toolbar.portal-header {
+  max-height: 40px;
+  background-color: $mdc-theme-secondary;
+  color: white;
+  align-items: center;
+  justify-content: space-between;
+
+  &.prod-uat-bg {
+    background-color: #a60303;
+  }
+
+  // stylelint-disable-next-line no-descending-specificity
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  h1 {
+    @include mat-typography-level-to-styles($ap-typography-config, headline);
+    margin-left: 1rem;
+  }
+
+  img {
+    max-height: 1.25em;
+    max-width: 1.25em;
+  }
+}
+
+/* Please Note: must not be wrapped within a mat-toolbar */
+mat-button-toggle-group.wrapping-button-toggle-group {
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+}
+
+// TODO: Once we decide make this a standard, move up into _theme-overrides.scss
+app-account-activity-card,
+app-account-history,
+app-credit-report-work-list,
+app-delinquent-call-history,
+app-interest-rate-history-snapshot,
+app-loan-account-history,
+app-search-results,
+app-scra-benefits-history-dialog,
+app-school-enrollment-history,
+app-suspense,
+app-transaction-history {
+  div.mat-paginator-container {
+    justify-content: space-between;
+  }
+
+  mat-paginator.no-gutters div.mat-paginator-container {
+    padding: 0;
+  }
+}
+
+app-suspense-notes {
+  // stylelint-disable-next-line no-descending-specificity
+  div.mat-paginator-container {
+    justify-content: center;
+  }
+
+  div.mat-paginator-range-actions {
+    & > button:first-of-type {
+      order: 0;
+    }
+    & > button:last-of-type {
+      order: 2;
+    }
+    & > div.mat-paginator-range-label {
+      order: 1;
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+}
+
+app-reamortize-loan-action-dialog,
+app-reamortization-calculator-action-dialog {
+  app-simple-message > app-message > mat-card.mat-card {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+app-loan-card-contents {
+  mat-toolbar.mat-toolbar {
+    background: none;
+  }
+
+  mat-button-toggle.mat-button-toggle {
+    // aka .txt-link
+    color: $primary-link-color !important;
+    font-weight: mat-font-weight($ap-typography-config, body-2);
+  }
 }

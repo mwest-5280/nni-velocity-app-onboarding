@@ -1,12 +1,12 @@
-@use '~@angular/material' as mat;
+@import '~@angular/material/theming';
 
-$mdc-theme-primary: #1f496b;
+$mdc-theme-primary: #8dce19;
 $mdc-theme-on-primary: rgba(0, 0, 0, 0.87);
 $mdc-theme-secondary: #1f496b;
 $mdc-theme-on-secondary: #ffffff;
 $mdc-theme-surface: #ffffff;
 $mdc-theme-on-surface: rgba(0, 0, 0, 0.6);
-$mdc-theme-background: #f2f2eb;
+$mdc-theme-background: #f5f5f5;
 
 $ap-primary-color: (
   50: #e4e9ed,
@@ -38,8 +38,8 @@ $ap-primary-color: (
     A100: #000000,
     A200: #000000,
     A400: #ffffff,
-    A700: #ffffff
-  )
+    A700: #ffffff,
+  ),
 );
 
 // nelnet green
@@ -73,8 +73,8 @@ $ap-accent-color: (
     A100: #000000,
     A200: #000000,
     A400: #000000,
-    A700: #000000
-  )
+    A700: #000000,
+  ),
 );
 
 // Based off of the $mat-error color palette (in particular the contrast
@@ -109,16 +109,16 @@ $ap-warn-color: (
     A100: rgba(0, 0, 0, 0.87),
     A200: #fff,
     A400: #fff,
-    A700: #fff
-  )
+    A700: #fff,
+  ),
 );
 
 $white: #fff;
 $gray: #9b9b9b;
 $light-gray: #f3f3f3;
-$primary: mat.get-color-from-palette($ap-primary-color, 500);
-$accent: mat.get-color-from-palette($ap-accent-color, 500);
-$primary-link-color: mat.get-color-from-palette($ap-primary-color, link);
+$primary: mat-color($ap-primary-color, 500);
+$accent: mat-color($ap-accent-color, 500);
+$primary-link-color: mat-color($ap-primary-color, link);
 
 // for the background of selected toggle buttons
 $lightest-blue: rgb(232, 239, 244);
